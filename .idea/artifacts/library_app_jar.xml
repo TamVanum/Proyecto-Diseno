@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="library_app:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/library_app_jar</output-path>
+    <root id="archive" name="library_app.jar">
+      <element id="module-output" name="library_app" />
+      <element id="extracted-dir" path="$USER_HOME$/Descargas/flatlaf-0.43.jar" path-in-jar="/" />
+      <element id="library" level="project" name="flatlaf-0.43" />
+    </root>
+  </artifact>
+</component>
