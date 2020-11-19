@@ -1,17 +1,12 @@
 package org.santotomas.library_app;
 
-import org.santotomas.library_app.dao.UserDAO;
-import org.santotomas.library_app.models.User;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MenuLibreria extends JFrame implements ActionListener {
 
@@ -93,18 +88,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
             }
         });
-
-
-        try {
-            UserDAO usersDao = new UserDAO();
-            ArrayList<User> users = usersDao.getAll();
-
-            for (User user: users) {
-                System.out.println(user);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     /**
@@ -119,7 +102,13 @@ public class MenuLibreria extends JFrame implements ActionListener {
             JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         } else if ( e.getSource() == btnCloseSession ) {
             dispose();
-            new Login("Bienvenid@");
+            try {
+                new Login("Bienvenid@");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
         }
     }
 }

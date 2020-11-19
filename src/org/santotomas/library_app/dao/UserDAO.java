@@ -2,70 +2,117 @@ package org.santotomas.library_app.dao;
 
 import org.santotomas.library_app.models.User;
 
-import javax.xml.crypto.Data;
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class UserDAO implements InterfaceDAO<User> {
 
-    Database conn;
+public class UserDAO implements ImplentationDAO<User> {
 
-    public UserDAO() {
-        try {
-            conn = Database.getInstance("localhost", "3306", "library", "root", "1324");
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    private Database myDatabase;
+
+    public UserDAO(Database myDatabase) {
+        this.myDatabase = myDatabase;
     }
 
     @Override
-    public ArrayList<User> getAll() throws SQLException {
-        String sql = "SELECT uuid, user_name, password, permission FROM user;";
-        ResultSet rs = conn
-                .getConnection()
-                .createStatement()
-                .executeQuery(sql);
-        ArrayList<User> users = new ArrayList<>();
+    public List<User> getAll() throws SQLException {
+        String sql = "SELECT uuid, user_name, permission FROM user";
+        List<User> users = new ArrayList<User>();
+        ResultSet resultSet = myDatabase.getConn().createStatement().executeQuery(sql);
 
-        if ( !rs.next() ) {
-            System.out.println("no data");
-        } else {
-
+        if ( resultSet.next() ) {
             do {
                 users.add(new User(
-                        rs.getString("uuid"),
-                        rs.getString("user_name"),
-                        rs.getString("password"),
-                        rs.getString("permission")
+                        resultSet.getString("uuid"),
+                        resultSet.getString("user_name"),
+                        resultSet.getString("permission")
                 ));
-            } while (rs.next());
+            } while (resultSet.next() );
+            return users;
         }
-        return users;
+
+        return Collections.EMPTY_LIST;
     }
 
     @Override
-    public User getById() {
+    public User getByUUID(String uuid) throws SQLException {
+        String sql = "SELECT uuid, user_name, permission FROM user " +
+                "WHERE uuid = ?";
+
+        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
+        preparedStatement.setString(1, uuid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if ( resultSet.next() ) {
+            String userUuid = resultSet.getString("uuid");
+            String userName = resultSet.getString("user_name");
+            String permission = resultSet.getString("permission");
+
+            return new User(userUuid, userName, permission);
+        }
+
+        return null;
+    }
+
+    public User login(String user_name, String password) throws SQLException {
+        String sql = "SELECT uuid, user_name, permission FROM user " +
+                "WHERE user_name = ? AND password = SHA2(?, 512) AND permission = 'Admin'";
+
+        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
+        preparedStatement.setString(1, user_name);
+        preparedStatement.setString(2, password);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if ( resultSet.next() ) {
+            String uuid = resultSet.getString("uuid");
+            String userName = resultSet.getString("user_name");
+            String permission = resultSet.getString("permission");
+
+            return new User(uuid, userName, permission);
+        }
+
         return null;
     }
 
     @Override
-    public void insert(User user) throws SQLException {
-        String sql = "INSERT INTO users";
-        //conn.getConnection().createStatement().executeUpdate("sada");
+    public int add(User user) throws SQLException {
+        String sql = "INSERT INTO user VALUES (UUID, ?, SHA2(?, 512), ?)";
+
+        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
+        preparedStatement.setString(1, user.getUserName());
+        preparedStatement.setString(2, user.getPassword());
+        preparedStatement.setString(3, user.getPermission());
+        int rowAffected = preparedStatement.executeUpdate();
+
+        return rowAffected;
     }
 
     @Override
-    public void update(User user) {
+    public int update(String uuid, User obj) throws SQLException {
+        String sql = "UPDATE user SET user_name = ?, permission = ? " +
+                "WHERE uuid = ?";
 
+        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
+        preparedStatement.setString(1, obj.getUserName());
+        preparedStatement.setString(2, obj.getPermission());
+        preparedStatement.setString(3, obj.getUuid());
+        int rowAffected = preparedStatement.executeUpdate();
+
+        return rowAffected;
     }
 
     @Override
-    public void delete(User user) {
+    public int delete(String uuid) throws SQLException {
+        String sql = "DELETE FROM user WHERE uuid = ?";
 
+        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
+        preparedStatement.setString(1, uuid);
+        int rowAffected = preparedStatement.executeUpdate();
+
+        return rowAffected;
     }
 }

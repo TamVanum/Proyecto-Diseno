@@ -1,7 +1,5 @@
 package org.santotomas.library_app.models;
 
-import java.util.Objects;
-
 /**
  * Modelo que nos ayuda a una mejor comprension al agrupar datos de una entidad, en este caso, ahora sabemos un usuario
  * tiene nombre de usuario y una password
@@ -24,17 +22,19 @@ public class User {
     /**
      * Constructor basico para armar un usuario en condiciones
      * @param userName nombre del usuario
-     * @param password contrasena TODO: en un futuro encriptar password
      */
+    public User(String uuid, String userName, String permission) {
+        this.uuid = uuid;
+        this.userName = userName;
+        this.permission = permission;
+    }
+
     public User(String uuid, String userName, String password, String permission) {
         this.uuid = uuid;
         this.userName = userName;
         this.password = password;
         this.permission = permission;
     }
-
-
-
 
     // Getters & Setters
     public String getUuid() {

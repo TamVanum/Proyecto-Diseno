@@ -1,5 +1,7 @@
 package org.santotomas.library_app;
 
+import org.santotomas.library_app.dao.Database;
+import org.santotomas.library_app.dao.UserDAO;
 import org.santotomas.library_app.models.User;
 
 import javax.swing.*; // Importamos las librerías necesarias para crear una GUI
@@ -7,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -29,11 +32,13 @@ public class Login extends JFrame implements ActionListener {
     private static final Insets RIGHT_MARGIN = new Insets(4, 0, 4, 4);
     private Dimension txtSize = new Dimension(140, 26);
 
+    private Database myDatabase;
+
     /**
      * Constructor, donde definimos las propiedades de la ventana
      * @param title Como el constructor del padre pide un titulo, se lo pasamos por parámetro
      */
-    public Login(String title) {
+    public Login(String title) throws SQLException, ClassNotFoundException {
 
         // Configuramos nuestra ventana
         super(title);
@@ -41,7 +46,6 @@ public class Login extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(360, 200));
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
         setLayout(new GridLayout(4, 1, 25, 25));
 
         // Agregando imagen de fondo
@@ -50,21 +54,14 @@ public class Login extends JFrame implements ActionListener {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(img, 0, 0, null);
+                g.drawImage(img, 0, 0, this);
             }
         });
-        this.repaint();
+        setVisible(true);
 
-        /* Clausurado por temas de diseño
-        // Inicializamos y configuramos el titulo
-        pTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        pTop.setOpaque(false);
-
-        lblTitle = new JLabel("Administrador de Librería", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Dialog", Font.BOLD, 18));
-        pTop.add(lblTitle); // Lo agregamos y dejamos al inicio de la ventana
-        add(pTop);
-        */
+        String contraSantiago = "1324";
+        String contraGaston = "";
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
 
         // Inicializamos y configuramos el Panel principal donde tendremos los campos para logearse
         pMain = new JPanel();
@@ -142,6 +139,7 @@ public class Login extends JFrame implements ActionListener {
     private void resetForm() {
         txtUserName.setText("");
         pswPassword.setText("");
+        txtUserName.requestFocus();
     }
 
     /**
@@ -168,24 +166,29 @@ public class Login extends JFrame implements ActionListener {
             String userName = txtUserName.getText().trim();
             String password = new String( pswPassword.getPassword() ).trim();
 
-            /*
+
             // Validar si uno de los campos está vacio
             if ( isTxtVoid(userName, password) ) {
                 JOptionPane.showMessageDialog(this, "Campos Vacios", "Error", JOptionPane.ERROR_MESSAGE);
                 resetForm();
             } else {
-                User newUser = new User(userName, password);
+                UserDAO userDAO = new UserDAO(myDatabase);
+
                 // Validamos que los valores se encuentren en nuestra bd (ArrayList)
-                if ( users.contains(newUser) ) {
-                    dispose();
-                    new MenuLibreria("Bienvenid@ ", userName);
-                } else {
-                    JOptionPane.showMessageDialog(this, "No se encuentra usuario en nuestra BD", "Alerta", JOptionPane.WARNING_MESSAGE);
-                    resetForm();
+                try {
+                    if ( userDAO.login(userName, password) != null ) {
+                        dispose();
+                        new MenuLibreria("Bienvenid@ ", userName);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se encuentra usuario en nuestra BD", "Alerta", JOptionPane.WARNING_MESSAGE);
+                        resetForm();
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
 
             }
-            */
+
         }
     }
 }
