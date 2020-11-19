@@ -4,25 +4,35 @@ import java.sql.*;
 
 public class Database {
 
-    public Database () throws ClassNotFoundException, SQLException {
+    private static Database instance;
+    public Connection connection;
+
+    public Database (
+            String host, String port, String db, String user, String password
+    ) throws ClassNotFoundException, SQLException {
         Class.forName("org.mariadb.jdbc.Driver");
-        Connection conection = DriverManager.getConnection("jdbc:mysql://69.10.61.242:3306/RAN_usuariosrolescomentarios?" +
-                "user=alumno_rancagua&" +
-                "password=ran2020");
 
-        PreparedStatement psQuery = conection.prepareStatement(
-                "SELECT message.id, user.username, message.message FROM message " +
-                        "INNER JOIN user ON message.user_id_fk = user.id " +
-                        "ORDER BY id ASC");
+        String uri = "jdbc:mysql://";
+        uri += host + ":" + port + "/" + db + "?";
+        uri += "user=" + user + "&password=" + password;
 
-        ResultSet rs = psQuery.executeQuery();
+        this.connection = DriverManager.getConnection(uri);
+    }
 
-        while (rs.next()) {
-            System.out.println( rs.getInt("id") + "\t| " + rs.getString("username") + " : " + rs.getString("message"));
+    public void closeConnection() throws SQLException {
+        connection.close();
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public static Database getInstance(
+            String host, String port, String db, String user, String password
+    ) throws ClassNotFoundException, SQLException {
+        if (instance == null) {
+            instance = new Database(host, port, db, user, password);
         }
-
-        rs.close();
-        psQuery.close();
-        conection.close();
+        return instance;
     }
 }

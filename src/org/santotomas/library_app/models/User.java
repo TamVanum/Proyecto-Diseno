@@ -1,4 +1,4 @@
-package org.santotomas.library_app;
+package org.santotomas.library_app.models;
 
 import java.util.Objects;
 
@@ -9,8 +9,10 @@ import java.util.Objects;
 public class User {
 
     // Atributos
-    private String UserName;
+    private String uuid;
+    private String userName;
     private String password;
+    private String permission;
 
     // Constructores
 
@@ -24,18 +26,31 @@ public class User {
      * @param userName nombre del usuario
      * @param password contrasena TODO: en un futuro encriptar password
      */
-    public User(String userName, String password) {
-        UserName = userName;
+    public User(String uuid, String userName, String password, String permission) {
+        this.uuid = uuid;
+        this.userName = userName;
         this.password = password;
+        this.permission = permission;
     }
 
+
+
+
     // Getters & Setters
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -46,25 +61,21 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getUserName().equals(user.getUserName()) &&
-                getPassword().equals(user.getPassword());
+    public String getPermission() {
+        return permission;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUserName(), getPassword());
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "UserName='" + UserName + '\'' +
+                "uuid='" + uuid + '\'' +
+                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", permission='" + permission + '\'' +
                 '}';
     }
 }
