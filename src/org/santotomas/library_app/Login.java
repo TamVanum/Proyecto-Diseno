@@ -41,19 +41,21 @@ public class Login extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(360, 200));
         setResizable(false);
         setLocationRelativeTo(null);
-        setVisible(true);
+        Image img = Toolkit.getDefaultToolkit().getImage("src/org/santotomas/library_app/img/background.png");
+
+
+
         setLayout(new GridLayout(4, 1, 25, 25));
 
         // Agregando imagen de fondo
-        Image img = Toolkit.getDefaultToolkit().getImage("src/org/santotomas/library_app/img/background.png");
         this.setContentPane(new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(img, 0, 0, null);
+                g.drawImage(img, 0, 0, this);
             }
         });
-        this.repaint();
+        setVisible(true);
 
         /* Clausurado por temas de diseño
         // Inicializamos y configuramos el titulo
