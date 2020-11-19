@@ -1,13 +1,12 @@
 package org.santotomas.library_app;
 
-import org.santotomas.library_app.dao.Database;
+import org.santotomas.library_app.models.User;
 
 import javax.swing.*; // Importamos las librerías necesarias para crear una GUI
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -15,9 +14,6 @@ import java.util.ArrayList;
  * que hereda de JFrame para tener el comportamiento de una ventana
  */
 public class Login extends JFrame implements ActionListener {
-
-    // Creamos nuestra bd de usuarios
-    ArrayList<User> users = new ArrayList<>();
 
     // Declaramos los componentes de nuestra ventama
     private JPanel pTop, pMain, pBottom;
@@ -47,10 +43,6 @@ public class Login extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setVisible(true);
         setLayout(new GridLayout(4, 1, 25, 25));
-
-        // Llenamos nuestra BD
-        users.add(new User("admin", "admin"));
-        users.add(new User("elwazy", "1324"));
 
         // Agregando imagen de fondo
         Image img = Toolkit.getDefaultToolkit().getImage("src/org/santotomas/library_app/img/background.png");
@@ -176,6 +168,7 @@ public class Login extends JFrame implements ActionListener {
             String userName = txtUserName.getText().trim();
             String password = new String( pswPassword.getPassword() ).trim();
 
+            /*
             // Validar si uno de los campos está vacio
             if ( isTxtVoid(userName, password) ) {
                 JOptionPane.showMessageDialog(this, "Campos Vacios", "Error", JOptionPane.ERROR_MESSAGE);
@@ -192,14 +185,7 @@ public class Login extends JFrame implements ActionListener {
                 }
 
             }
-
-            try {
-                Database database = new Database();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            */
         }
     }
 }

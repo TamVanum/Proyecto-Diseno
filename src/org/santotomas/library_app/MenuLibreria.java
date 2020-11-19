@@ -1,5 +1,8 @@
 package org.santotomas.library_app;
 
+import org.santotomas.library_app.dao.UserDAO;
+import org.santotomas.library_app.models.User;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -7,8 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MenuLibreria extends JFrame implements ActionListener {
+
+    // region Components
     private JPanel pnlPanel;
     private JTabbedPane tbdHome;
     private JPanel pnlBuscar;
@@ -36,6 +43,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JCheckBox magiaCheckBox;
     private JPanel pnlCerrarSesion;
     private JButton btnCloseSession;
+    // endregion
 
     /**
      * Constructor en el cual definimos lo primero que haga nuestra ventana de menu al crearse (instanciarse)
@@ -50,7 +58,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
         setVisible(true);
         btnActualizar.addActionListener(this);
         btnEliminar.addActionListener(this);
-
 
         btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
         btnCloseSession.addActionListener(this);
@@ -86,6 +93,18 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
             }
         });
+
+
+        try {
+            UserDAO usersDao = new UserDAO();
+            ArrayList<User> users = usersDao.getAll();
+
+            for (User user: users) {
+                System.out.println(user);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**

@@ -12,6 +12,6 @@ public class Main {
         } catch( Exception ex ) {
             System.err.println( "Failed to initialize LaF" );
         }
-        Login window = new Login("Administrador de Libreria"); // Al iniciar el programa creamos la ventana del Login
+        MenuLibreria window = new MenuLibreria("bienvenido", "maue"); // Al iniciar el programa creamos la ventana del Login
     }
 }
