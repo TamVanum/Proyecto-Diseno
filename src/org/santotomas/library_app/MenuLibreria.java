@@ -1,5 +1,11 @@
 package org.santotomas.library_app;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.santotomas.library_app.dao.BookDAO;
 import org.santotomas.library_app.dao.Database;
 import org.santotomas.library_app.models.Book;
@@ -8,7 +14,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -52,7 +57,14 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JRadioButton rTerror;
     private JRadioButton rFantasia;
     private JRadioButton rRomance;
-    private JButton btnUpdateTable;
+    private JPanel pnlGrafico;
+    private JPanel pnlContenidoGrafico;
+    private JPanel pnlGraficador;
+    private JTextField txtSemana1;
+    private JTextField txtSemana2;
+    private JTextField txtSemana3;
+    private JTextField txtSemana4;
+    private JButton btnGraficar;
     // endregion
 
     private Database myDatabase;
@@ -73,21 +85,23 @@ public class MenuLibreria extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(1280, 640));
         setVisible(true);
 
-        //Colores
+        //Colores tbdHome
         pnlPanel.setBackground(Color.decode("#212121"));
         tbdHome.setBackgroundAt(0, Color.decode("#212121"));
         tbdHome.setBackgroundAt(1, Color.decode("#212121"));
         tbdHome.setBackgroundAt(2, Color.decode("#212121"));
+        tbdHome.setBackgroundAt(3, Color.decode("#212121"));
 
         tbdHome.setForegroundAt(0, Color.decode("#ffffff"));
         tbdHome.setForegroundAt(1, Color.decode("#ffffff"));
         tbdHome.setForegroundAt(2, Color.decode("#ffffff"));
+        tbdHome.setForegroundAt(3, Color.decode("#ffffff"));
 
 
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
 
         // region Buttons & Mnemonics
         tbdHome.setMnemonicAt(0, KeyEvent.VK_1);
@@ -96,12 +110,10 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         btnAgregar.setMnemonic(KeyEvent.VK_A);
         btnActualizar.setMnemonic(KeyEvent.VK_A);
-        btnUpdateTable.setMnemonic(KeyEvent.VK_T);
         btnEliminar.setMnemonic(KeyEvent.VK_E);
 
         btnAgregar.addActionListener(this);
         btnActualizar.addActionListener(this);
-        btnUpdateTable.addActionListener(this);
         btnEliminar.addActionListener(this);
 
         // region Radio Buttons Group
@@ -167,6 +179,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         add(pnlPanel);
         pack();
+
 
         //Color boton
         btnBuscar.setBackground(Color.decode("#f57f17"));
@@ -241,21 +254,52 @@ public class MenuLibreria extends JFrame implements ActionListener {
             }
         });
 
-        ///Color boton actualizar tabla
-        btnUpdateTable.setBackground(Color.decode("#f57f17"));
-        btnUpdateTable.addMouseListener(new MouseAdapter() {
+
+        //Color pnlGraficador
+        pnlGraficador.setBackground(Color.decode("#ffb04c"));
+        btnGraficar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                pnlGraficador.setOpaque(true);
+                XYSeries oSeries = new XYSeries("Stock de libros");
+
+                int semana1 = Integer.parseInt(txtSemana1.getText());
+                int semana2 = Integer.parseInt(txtSemana2.getText());
+                int semana3 = Integer.parseInt(txtSemana3.getText());
+                int semana4 = Integer.parseInt(txtSemana4.getText());
+
+                oSeries.add(1, semana1);
+                oSeries.add(2, semana2);
+                oSeries.add(3, semana3);
+                oSeries.add(4, semana4);
+
+                XYSeriesCollection oDataset = new XYSeriesCollection();
+                oDataset.addSeries(oSeries);
+
+                JFreeChart oChart = ChartFactory.createXYLineChart("Venta de libros", "Semanas", "Cantidad", oDataset, PlotOrientation.VERTICAL, true, false, false);
+
+                ChartPanel oPanel = new ChartPanel(oChart);
+                pnlGraficador.setLayout(new java.awt.BorderLayout());
+                pnlGraficador.add(oPanel);
+
+            }
+        });
+        //Color boton graficar
+        btnGraficar.setBackground(Color.decode("#f57f17"));
+        btnGraficar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                btnUpdateTable.setBackground(Color.decode("#ffb04c"));
-                btnAgregar.setForeground(Color.decode("#000000"));
+                btnGraficar.setBackground(Color.decode("#ffb04c"));
+                btnGraficar.setForeground(Color.decode("#000000"));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
-                btnUpdateTable.setBackground(Color.decode("#f57f17"));
-                btnUpdateTable.setForeground(Color.decode("#000000"));
+                btnGraficar.setBackground(Color.decode("#f57f17"));
+                btnGraficar.setForeground(Color.decode("#000000"));
             }
         });
     }
@@ -265,7 +309,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
         List<Book> books = bookDAO.getAll();
 
         for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-            dtmLibros.removeRow(i - 1);
+            dtmLibros.removeRow(i);
         }
 
         for (Book book : books) {
@@ -296,9 +340,9 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 String descripcion = txtDescripcion.getText();
                 int precio = Integer.parseInt(spnPrecio.getValue().toString());
                 int stock = Integer.parseInt(spnStock.getValue().toString());
-                int categoria = 1;
+                int categoria = 0;
 
-                switch (bgCategorias.getSelection().getActionCommand()) {
+                switch ( bgCategorias.getSelection().getActionCommand() ) {
                     case "Magia":
                         categoria = 1;
                         break;
@@ -315,121 +359,46 @@ public class MenuLibreria extends JFrame implements ActionListener {
                         categoria = 5;
                         break;
 
-                    default:
-                        categoria = 1;
+                    default: categoria = 0;
                 }
 
-                if (titulo.isBlank()) {
-                    JOptionPane.showMessageDialog(this, "Libro sin titulo", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Book book = new Book();
-                    book.setTitle(titulo);
-                    book.setAuthor(autor);
-                    book.setDescription(descripcion);
-                    book.setPrice(precio);
-                    book.setStock(stock);
-                    book.setCategoryId(categoria);
+                Book book = new Book();
+                book.setTitle(titulo);
+                book.setAuthor(autor);
+                book.setDescription(descripcion);
+                book.setPrice(precio);
+                book.setStock(stock);
+                book.setCategoryId(categoria);
 
-                    BookDAO bookDAO = new BookDAO(myDatabase);
+                BookDAO bookDAO = new BookDAO(myDatabase);
 
-                    bookDAO.add(book);
+                bookDAO.add(book);
 
-                    // print result in table
-                    updateTable();
+                // print result in table
+                updateTable();
 
-                    // reset form
-                    txtNombreLibro.setText("");
-                    txtAutor.setText("");
-                    txtDescripcion.setText("");
-                    spnPrecio.setValue(0);
-                    spnStock.setValue(0);
+                // reset form
+                txtNombreLibro.requestFocus();
 
-                    rFantasia.setSelected(false);
-                    rRomance.setSelected(false);
-                    rTerror.setSelected(false);
-                    rSuspenso.setSelected(false);
-                    rMagia.setSelected(false);
+                JOptionPane.showMessageDialog(this, "Libro registrado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
 
-                    txtNombreLibro.requestFocus();
-
-                    JOptionPane.showMessageDialog(this, "Libro registrado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
-                }
-            } catch(NumberFormatException ex){
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Palabras en Stock o en precio", "Error", JOptionPane.ERROR_MESSAGE);
                 ex.getStackTrace();
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al Registrar el libro", "Error", JOptionPane.ERROR_MESSAGE);
+                throwables.getStackTrace();
             }
+
 
         }
 
         if ( e.getSource() == btnActualizar) {
-            Book book = new Book(
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7))),
-                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 8)))
-                    );
-
-
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        UpdateBook updateBook = new UpdateBook(book);
-                        if (!updateBook.isVisible()) {
-                            updateTable();
-                        }
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
-                    }
-                }
-
-
-            });
+            new UpdateBook();
         }
 
         if (e.getSource() == btnEliminar) {
-
-            String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
-            int option = JOptionPane.showConfirmDialog(
-                    this,
-                    "Está seguro", "Eliminar " + dtmLibros.getValueAt(table1.getSelectedRow(), 1),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE
-            );
-
-            switch (option) {
-                case JOptionPane.YES_OPTION:
-                    BookDAO bookDAO = new BookDAO(myDatabase);
-                    try {
-                        bookDAO.delete(uuid);
-                        updateTable();
-                        JOptionPane.showMessageDialog(this, "Libro eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
-                    break;
-
-                case JOptionPane.NO_OPTION:
-
-                    break;
-            }
-        }
-
-        if ( e.getSource() == btnUpdateTable ) {
-            try {
-                updateTable();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         }
 
         if ( e.getSource() == btnCloseSession ) {
