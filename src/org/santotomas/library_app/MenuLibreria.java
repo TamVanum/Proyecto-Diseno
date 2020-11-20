@@ -20,24 +20,33 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JCheckBox chkCategoriaMagia;
     private JCheckBox chkCategoriaSuspenso;
     private JCheckBox chkCategoriaRomance;
-    private JTable tblMuestraLibros;
     private JButton btnBuscar;
     private JButton btnActualizar;
     private JButton btnEliminar;
     private JLabel lblCategorias;
     private JPanel pnlAgregar;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
+    private JTextField txtNombreLibro;
+    private JTextField txtAutor;
+    private JTextField txtIsbn;
+    private JTextField txtDescripcion;
     private JCheckBox suspensoCheckBox;
     private JCheckBox terrorCheckBox;
     private JCheckBox fantasiaCheckBox;
     private JCheckBox romanceCheckBox;
-    private JTextField textField5;
+    private JTextField txtStock;
     private JCheckBox magiaCheckBox;
     private JPanel pnlCerrarSesion;
     private JButton btnCloseSession;
+    private JScrollPane jspLibros;
+    private JTable table1;
+    private JLabel lblNombreLibro;
+    private JLabel lblIsbn;
+    private JLabel lblDescripcion;
+    private JLabel lblCategoria;
+    private JLabel lblAutor;
+    private JLabel lblStock;
+    private JButton btnAgregar;
+    private JPanel pCategorias;
     // endregion
 
     /**
