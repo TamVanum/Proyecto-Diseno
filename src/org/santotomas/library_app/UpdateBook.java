@@ -216,54 +216,42 @@ public class UpdateBook extends JFrame implements ActionListener {
                 String descripcion = txtDescription.getText();
                 int precio = Integer.parseInt(spnPrice.getValue().toString());
                 int stock = Integer.parseInt(spnStock.getValue().toString());
-                int categoria = 0;
+                int category = 1;
 
                 switch (bgCategory.getSelection().getActionCommand()) {
                     case "Magia":
-                        categoria = 1;
+                        category = 1;
                         break;
                     case "Suspenso":
-                        categoria = 2;
+                        category = 2;
                         break;
                     case "Terror":
-                        categoria = 3;
+                        category = 3;
                         break;
                     case "Fantasia":
-                        categoria = 4;
+                        category = 4;
                         break;
                     case "Romance":
-                        categoria = 5;
+                        category = 5;
                         break;
 
                     default:
-                        categoria = 0;
+                        category = 1;
                 }
 
                 if (titulo.isBlank()) {
                     JOptionPane.showMessageDialog(this, "Libro sin titulo", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Book book = new Book();
+                    book.setIsbn(this.book.getIsbn());
                     book.setTitle(titulo);
                     book.setAuthor(autor);
                     book.setDescription(descripcion);
                     book.setPrice(precio);
                     book.setStock(stock);
-                    book.setCategoryId(categoria);
+                    book.setCategoryId(category);
 
                     bookDAO.update(book);
-
-                    // reset form
-                    txtNameBook.setText("");
-                    txtNameAuthor.setText("");
-                    txtDescription.setText("");
-                    spnPrice.setValue(0);
-                    spnStock.setValue(0);
-
-                    rFantasy.setSelected(false);
-                    rRomance.setSelected(false);
-                    rTerror.setSelected(false);
-                    rSuspense.setSelected(false);
-                    rMagic.setSelected(false);
 
                     JOptionPane.showMessageDialog(this, "Libro Modificado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 }

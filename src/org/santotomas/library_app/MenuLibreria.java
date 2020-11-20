@@ -52,11 +52,13 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JRadioButton rTerror;
     private JRadioButton rFantasia;
     private JRadioButton rRomance;
+    private JButton btnUpdateTable;
     // endregion
 
     private Database myDatabase;
     private DefaultTableModel dtmLibros;
     private ButtonGroup bgCategorias;
+
 
     /**
      * Constructor en el cual definimos lo primero que haga nuestra ventana de menu al crearse (instanciarse)
@@ -67,9 +69,21 @@ public class MenuLibreria extends JFrame implements ActionListener {
         /* Configuramos nuestra ventana */
         super(titulo + nombre);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(new Dimension(1280,640));
-        setPreferredSize(new Dimension(1280,640));
+        setSize(new Dimension(1280, 640));
+        setPreferredSize(new Dimension(1280, 640));
         setVisible(true);
+
+        //Colores
+        pnlPanel.setBackground(Color.decode("#212121"));
+        tbdHome.setBackgroundAt(0, Color.decode("#212121"));
+        tbdHome.setBackgroundAt(1, Color.decode("#212121"));
+        tbdHome.setBackgroundAt(2, Color.decode("#212121"));
+
+        tbdHome.setForegroundAt(0, Color.decode("#ffffff"));
+        tbdHome.setForegroundAt(1, Color.decode("#ffffff"));
+        tbdHome.setForegroundAt(2, Color.decode("#ffffff"));
+
+
 
         String contraSantiago = "1324";
         String contraGaston = "";
@@ -82,10 +96,12 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         btnAgregar.setMnemonic(KeyEvent.VK_A);
         btnActualizar.setMnemonic(KeyEvent.VK_A);
+        btnUpdateTable.setMnemonic(KeyEvent.VK_T);
         btnEliminar.setMnemonic(KeyEvent.VK_E);
 
         btnAgregar.addActionListener(this);
         btnActualizar.addActionListener(this);
+        btnUpdateTable.addActionListener(this);
         btnEliminar.addActionListener(this);
 
         // region Radio Buttons Group
@@ -151,6 +167,97 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         add(pnlPanel);
         pack();
+
+        //Color boton
+        btnBuscar.setBackground(Color.decode("#f57f17"));
+        btnBuscar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnBuscar.setBackground(Color.decode("#ffb04c"));
+                btnBuscar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnBuscar.setBackground(Color.decode("#f57f17"));
+                btnBuscar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+
+        //Color boton Eliminar
+        btnEliminar.setBackground(Color.decode("#dd2c00"));
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnEliminar.setBackground(Color.decode("#ff6434"));
+                btnEliminar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnEliminar.setBackground(Color.decode("#dd2c00"));
+                btnEliminar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+        //Color boton acualizar
+        btnActualizar.setBackground(Color.decode("#f57f17"));
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnActualizar.setBackground(Color.decode("#ffb04c"));
+                btnActualizar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnActualizar.setBackground(Color.decode("#f57f17"));
+                btnActualizar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+        //Color boton agregar
+        btnAgregar.setBackground(Color.decode("#f57f17"));
+        btnAgregar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnAgregar.setBackground(Color.decode("#ffb04c"));
+                btnAgregar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnAgregar.setBackground(Color.decode("#f57f17"));
+                btnAgregar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+        ///Color boton actualizar tabla
+        btnUpdateTable.setBackground(Color.decode("#f57f17"));
+        btnUpdateTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnUpdateTable.setBackground(Color.decode("#ffb04c"));
+                btnAgregar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnUpdateTable.setBackground(Color.decode("#f57f17"));
+                btnUpdateTable.setForeground(Color.decode("#000000"));
+            }
+        });
     }
 
     public void updateTable() throws SQLException {
@@ -189,7 +296,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 String descripcion = txtDescripcion.getText();
                 int precio = Integer.parseInt(spnPrecio.getValue().toString());
                 int stock = Integer.parseInt(spnStock.getValue().toString());
-                int categoria = 0;
+                int categoria = 1;
 
                 switch (bgCategorias.getSelection().getActionCommand()) {
                     case "Magia":
@@ -209,7 +316,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                         break;
 
                     default:
-                        categoria = 0;
+                        categoria = 1;
                 }
 
                 if (titulo.isBlank()) {
@@ -269,12 +376,15 @@ public class MenuLibreria extends JFrame implements ActionListener {
                     Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 8)))
                     );
 
+
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         UpdateBook updateBook = new UpdateBook(book);
-                        updateTable();
+                        if (!updateBook.isVisible()) {
+                            updateTable();
+                        }
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {
@@ -311,6 +421,14 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 case JOptionPane.NO_OPTION:
 
                     break;
+            }
+        }
+
+        if ( e.getSource() == btnUpdateTable ) {
+            try {
+                updateTable();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         }
 
