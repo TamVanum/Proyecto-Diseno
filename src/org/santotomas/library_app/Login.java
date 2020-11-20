@@ -183,7 +183,7 @@ public class Login extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(this, "No se encuentra usuario en nuestra BD", "Alerta", JOptionPane.WARNING_MESSAGE);
                         resetForm();
                     }
-                } catch (SQLException throwables) {
+                } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
 

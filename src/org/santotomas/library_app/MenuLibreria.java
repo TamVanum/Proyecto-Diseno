@@ -1,12 +1,15 @@
 package org.santotomas.library_app;
 
+import org.santotomas.library_app.dao.BookDAO;
+import org.santotomas.library_app.dao.Database;
+import org.santotomas.library_app.models.Book;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MenuLibreria extends JFrame implements ActionListener {
 
@@ -27,51 +30,98 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JPanel pnlAgregar;
     private JTextField txtNombreLibro;
     private JTextField txtAutor;
-    private JTextField txtIsbn;
     private JTextField txtDescripcion;
-    private JCheckBox suspensoCheckBox;
-    private JCheckBox terrorCheckBox;
-    private JCheckBox fantasiaCheckBox;
-    private JCheckBox romanceCheckBox;
     private JTextField txtStock;
-    private JCheckBox magiaCheckBox;
     private JPanel pnlCerrarSesion;
     private JButton btnCloseSession;
     private JScrollPane jspLibros;
     private JTable table1;
     private JLabel lblNombreLibro;
-    private JLabel lblIsbn;
     private JLabel lblDescripcion;
     private JLabel lblCategoria;
     private JLabel lblAutor;
     private JLabel lblStock;
     private JButton btnAgregar;
     private JPanel pCategorias;
+    private JLabel lblPrecio;
+    private JSpinner spnPrecio;
+    private JSpinner spnStock;
+    private JRadioButton rMagia;
+    private JRadioButton rSuspenso;
+    private JRadioButton rTerror;
+    private JRadioButton rFantasia;
+    private JRadioButton rRomance;
     // endregion
+
+    private Database myDatabase;
+    private DefaultTableModel dtmLibros;
+    private ButtonGroup bgCategorias;
 
     /**
      * Constructor en el cual definimos lo primero que haga nuestra ventana de menu al crearse (instanciarse)
      * @param titulo titulo de la ventana
      * @param nombre nombre del usuario
      */
-    public MenuLibreria(String titulo, String nombre){
+    public MenuLibreria(String titulo, String nombre) throws SQLException, ClassNotFoundException {
         /* Configuramos nuestra ventana */
         super(titulo + nombre);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(new Dimension(1280,640));
+        setPreferredSize(new Dimension(1280,640));
         setVisible(true);
+
+        String contraSantiago = "1324";
+        String contraGaston = "";
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+
+        // region Buttons & Mnemonics
+        tbdHome.setMnemonicAt(0, KeyEvent.VK_1);
+        tbdHome.setMnemonicAt(1, KeyEvent.VK_2);
+        tbdHome.setMnemonicAt(2, KeyEvent.VK_3);
+
+        btnAgregar.setMnemonic(KeyEvent.VK_A);
+        btnActualizar.setMnemonic(KeyEvent.VK_A);
+        btnEliminar.setMnemonic(KeyEvent.VK_E);
+
+        btnAgregar.addActionListener(this);
         btnActualizar.addActionListener(this);
         btnEliminar.addActionListener(this);
 
+        // region Radio Buttons Group
+        bgCategorias = new ButtonGroup();
+        bgCategorias.add(rMagia);
+        bgCategorias.add(rSuspenso);
+        bgCategorias.add(rTerror);
+        bgCategorias.add(rRomance);
+        bgCategorias.add(rFantasia);
+
+        rMagia.setActionCommand("Magia");
+        rSuspenso.setActionCommand("Suspenso");
+        rTerror.setActionCommand("Terror");
+        rFantasia.setActionCommand("Fantasia");
+        rRomance.setActionCommand("Romance");
+        // endregion
+
         btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
         btnCloseSession.addActionListener(this);
+        // endregion
 
-        DefaultTableModel dtmLibros = new DefaultTableModel();
-        dtmLibros.addColumn("Nombre");
+        dtmLibros = new DefaultTableModel();
+        dtmLibros.addColumn("ISBN");
+        dtmLibros.addColumn("Titulo");
+        dtmLibros.addColumn("Descripcion");
+        dtmLibros.addColumn("Precio");
+        dtmLibros.addColumn("Categoria");
+        dtmLibros.addColumn("Autor(a)");
+        dtmLibros.addColumn("Estado");
+        dtmLibros.addColumn("Stock");
+        dtmLibros.addColumn("Fecha Salida");
+        table1.setModel(dtmLibros);
+
+        updateTable();
 
         /** add panel */
-        add(pnlPanel);
-        pack();
+
         btnCloseSession.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -97,6 +147,32 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
             }
         });
+
+        add(pnlPanel);
+        pack();
+    }
+
+    public void updateTable() throws SQLException {
+        BookDAO bookDAO = new BookDAO(myDatabase);
+        List<Book> books = bookDAO.getAll();
+
+        for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+            dtmLibros.removeRow(i);
+        }
+
+        for (Book book : books) {
+            dtmLibros.addRow(new Object[] {
+                    book.getIsbn(),
+                    book.getTitle(),
+                    book.getDescription(),
+                    book.getPrice(),
+                    book.getCategoryId(),
+                    book.getAuthor(),
+                    book.getEstate(),
+                    book.getStock(),
+                    book.getRelease_date()
+            });
+        }
     }
 
     /**
@@ -105,11 +181,75 @@ public class MenuLibreria extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        if ( e.getSource() == btnAgregar) {
+            try {
+                String titulo = txtNombreLibro.getText();
+                String autor = txtAutor.getText();
+                String descripcion = txtDescripcion.getText();
+                int precio = Integer.parseInt(spnPrecio.getValue().toString());
+                int stock = Integer.parseInt(spnStock.getValue().toString());
+                int categoria = 0;
+
+                switch ( bgCategorias.getSelection().getActionCommand() ) {
+                    case "Magia":
+                        categoria = 1;
+                        break;
+                    case "Suspenso":
+                        categoria = 2;
+                        break;
+                    case "Terror":
+                        categoria = 3;
+                        break;
+                    case "Fantasia":
+                        categoria = 4;
+                        break;
+                    case "Romance":
+                        categoria = 5;
+                        break;
+
+                    default: categoria = 0;
+                }
+
+                Book book = new Book();
+                book.setTitle(titulo);
+                book.setAuthor(autor);
+                book.setDescription(descripcion);
+                book.setPrice(precio);
+                book.setStock(stock);
+                book.setCategoryId(categoria);
+
+                BookDAO bookDAO = new BookDAO(myDatabase);
+
+                bookDAO.add(book);
+
+                // print result in table
+                updateTable();
+
+                // reset form
+                txtNombreLibro.requestFocus();
+
+                JOptionPane.showMessageDialog(this, "Libro registrado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Palabras en Stock o en precio", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.getStackTrace();
+            } catch (SQLException throwables) {
+                JOptionPane.showMessageDialog(this, "Error al Registrar el libro", "Error", JOptionPane.ERROR_MESSAGE);
+                throwables.getStackTrace();
+            }
+
+
+        }
+
         if ( e.getSource() == btnActualizar) {
             new UpdateBook();
-        } else if (e.getSource() == btnEliminar) {
+        }
+
+        if (e.getSource() == btnEliminar) {
             JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-        } else if ( e.getSource() == btnCloseSession ) {
+        }
+
+        if ( e.getSource() == btnCloseSession ) {
             dispose();
             try {
                 new Login("Bienvenid@");

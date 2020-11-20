@@ -92,14 +92,14 @@ public class UserDAO implements ImplentationDAO<User> {
     }
 
     @Override
-    public int update(String uuid, User obj) throws SQLException {
+    public int update(User user) throws SQLException {
         String sql = "UPDATE user SET user_name = ?, permission = ? " +
                 "WHERE uuid = ?";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
-        preparedStatement.setString(1, obj.getUserName());
-        preparedStatement.setString(2, obj.getPermission());
-        preparedStatement.setString(3, obj.getUuid());
+        preparedStatement.setString(1, user.getUserName());
+        preparedStatement.setString(2, user.getPermission());
+        preparedStatement.setString(3, user.getUuid());
         int rowAffected = preparedStatement.executeUpdate();
 
         return rowAffected;

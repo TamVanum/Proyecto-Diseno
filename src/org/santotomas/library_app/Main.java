@@ -17,11 +17,16 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                Login login = null;
                 try {
-                    new Login("Login"); // Al iniciar el programa creamos la ventana del Login
+                    login = new Login("Login"); // Al iniciar el programa creamos la ventana del Login
                 } catch (SQLException throwables) {
+                    login.dispose();
+                    JOptionPane.showMessageDialog(null, "Error de Conexion: " + throwables.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     throwables.printStackTrace();
                 } catch (ClassNotFoundException e) {
+                    login.dispose();
+                    JOptionPane.showMessageDialog(null, "No se encuentran los drivers: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace();
                 }
             }

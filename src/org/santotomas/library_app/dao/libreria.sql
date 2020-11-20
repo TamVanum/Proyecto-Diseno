@@ -38,10 +38,10 @@ CREATE TABLE book (
     isbn VARCHAR(36) NOT NULL,
     title VARCHAR(180) NOT NULL,
     description TEXT  NULL,
-    precio INT NOT NULL,
+    price INT NOT NULL,
     category_id_fk INT NULL,
     author VARCHAR(200) NULL,
-    estate ENUM('agotado', 'disponible'),
+    state ENUM('agotado', 'disponible'),
     stock INT NOT NULL DEFAULT 0,
     release_date DATE,
 

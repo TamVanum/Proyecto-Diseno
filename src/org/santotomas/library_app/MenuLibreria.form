@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.santotomas.library_app.MenuLibreria">
   <grid id="27dc6" binding="pnlPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="600" height="600"/>
+      <xy x="20" y="20" width="911" height="600"/>
     </constraints>
     <properties>
       <alignmentX value="0.0"/>
@@ -135,7 +135,7 @@
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Eliminar"/>
                 </properties>
               </component>
             </children>
@@ -159,18 +159,9 @@
                   <text value="Nombre Libro"/>
                 </properties>
               </component>
-              <component id="9a556" class="javax.swing.JLabel" binding="lblIsbn">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                </constraints>
-                <properties>
-                  <text value="ISBN"/>
-                </properties>
-              </component>
               <component id="4f86e" class="javax.swing.JLabel" binding="lblDescripcion">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
@@ -179,7 +170,7 @@
               </component>
               <component id="d87d1" class="javax.swing.JLabel" binding="lblCategoria">
                 <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
@@ -215,7 +206,7 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="db985" class="javax.swing.JTextField" binding="txtIsbn">
+              <component id="8ce0b" class="javax.swing.JTextField" binding="txtDescripcion">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -224,36 +215,9 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="8ce0b" class="javax.swing.JTextField" binding="txtDescripcion">
-                <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="1.0"/>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="8d9f4" class="javax.swing.JLabel" binding="lblStock">
-                <constraints>
-                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                </constraints>
-                <properties>
-                  <text value="Stock"/>
-                </properties>
-              </component>
-              <component id="4549f" class="javax.swing.JTextField" binding="txtStock">
-                <constraints>
-                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="1.0"/>
-                </constraints>
-                <properties/>
-              </component>
               <component id="2a3b" class="javax.swing.JButton" binding="btnAgregar">
                 <constraints>
-                  <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
@@ -262,22 +226,22 @@
               </component>
               <grid id="d3861" binding="pCategorias" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="4" column="1" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="3.0"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="a08ce" class="javax.swing.JCheckBox" binding="fantasiaCheckBox" default-binding="true">
+                  <component id="20292" class="javax.swing.JRadioButton" binding="rMagia">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Fantasia"/>
+                      <text value="Magia"/>
                     </properties>
                   </component>
-                  <component id="dbd27" class="javax.swing.JCheckBox" binding="suspensoCheckBox" default-binding="true">
+                  <component id="e7ff1" class="javax.swing.JRadioButton" binding="rSuspenso">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
@@ -286,25 +250,25 @@
                       <text value="Suspenso"/>
                     </properties>
                   </component>
-                  <component id="6c74e" class="javax.swing.JCheckBox" binding="magiaCheckBox" default-binding="true">
+                  <component id="5184a" class="javax.swing.JRadioButton" binding="rTerror">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Magia"/>
-                    </properties>
-                  </component>
-                  <component id="9fc06" class="javax.swing.JCheckBox" binding="terrorCheckBox" default-binding="true">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
                       <text value="Terror"/>
                     </properties>
                   </component>
-                  <component id="2724" class="javax.swing.JCheckBox" binding="romanceCheckBox" default-binding="true">
+                  <component id="f2049" class="javax.swing.JRadioButton" binding="rFantasia">
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <text value="Fantasia"/>
+                    </properties>
+                  </component>
+                  <component id="38656" class="javax.swing.JRadioButton" binding="rRomance">
                     <constraints>
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
@@ -315,6 +279,38 @@
                   </component>
                 </children>
               </grid>
+              <component id="82f69" class="javax.swing.JLabel" binding="lblPrecio">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Precio"/>
+                </properties>
+              </component>
+              <component id="8d9f4" class="javax.swing.JLabel" binding="lblStock">
+                <constraints>
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <text value="Stock"/>
+                </properties>
+              </component>
+              <component id="32e6b" class="javax.swing.JSpinner" binding="spnPrecio">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="1.0"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="43378" class="javax.swing.JSpinner" binding="spnStock">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="1.0"/>
+                </constraints>
+                <properties/>
+              </component>
             </children>
           </grid>
           <grid id="2da7a" binding="pnlCerrarSesion" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
