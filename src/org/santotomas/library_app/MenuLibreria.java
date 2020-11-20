@@ -57,6 +57,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private DefaultTableModel dtmLibros;
     private ButtonGroup bgCategorias;
 
+
     /**
      * Constructor en el cual definimos lo primero que haga nuestra ventana de menu al crearse (instanciarse)
      * @param titulo titulo de la ventana
@@ -66,13 +67,25 @@ public class MenuLibreria extends JFrame implements ActionListener {
         /* Configuramos nuestra ventana */
         super(titulo + nombre);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(new Dimension(1280,640));
-        setPreferredSize(new Dimension(1280,640));
+        setSize(new Dimension(1280, 640));
+        setPreferredSize(new Dimension(1280, 640));
         setVisible(true);
+
+        //Colores
+        pnlPanel.setBackground(Color.decode("#212121"));
+        tbdHome.setBackgroundAt(0, Color.decode("#212121"));
+        tbdHome.setBackgroundAt(1, Color.decode("#212121"));
+        tbdHome.setBackgroundAt(2, Color.decode("#212121"));
+
+        tbdHome.setForegroundAt(0, Color.decode("#ffffff"));
+        tbdHome.setForegroundAt(1, Color.decode("#ffffff"));
+        tbdHome.setForegroundAt(2, Color.decode("#ffffff"));
+
+
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
 
         // region Buttons & Mnemonics
         tbdHome.setMnemonicAt(0, KeyEvent.VK_1);
@@ -150,6 +163,79 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         add(pnlPanel);
         pack();
+
+        //Color boton
+        btnBuscar.setBackground(Color.decode("#f57f17"));
+        btnBuscar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnBuscar.setBackground(Color.decode("#ffb04c"));
+                btnBuscar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnBuscar.setBackground(Color.decode("#f57f17"));
+                btnBuscar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+
+        //Color boton Eliminar
+        btnEliminar.setBackground(Color.decode("#dd2c00"));
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnEliminar.setBackground(Color.decode("#ff6434"));
+                btnEliminar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnEliminar.setBackground(Color.decode("#dd2c00"));
+                btnEliminar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+        //Color boton acualizar
+        btnActualizar.setBackground(Color.decode("#f57f17"));
+        btnActualizar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnActualizar.setBackground(Color.decode("#ffb04c"));
+                btnActualizar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnActualizar.setBackground(Color.decode("#f57f17"));
+                btnActualizar.setForeground(Color.decode("#000000"));
+            }
+        });
+
+        //Color boton agregar
+        btnAgregar.setBackground(Color.decode("#f57f17"));
+        btnAgregar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                btnAgregar.setBackground(Color.decode("#ffb04c"));
+                btnAgregar.setForeground(Color.decode("#000000"));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                btnAgregar.setBackground(Color.decode("#f57f17"));
+                btnAgregar.setForeground(Color.decode("#000000"));
+            }
+        });
     }
 
     public void updateTable() throws SQLException {
