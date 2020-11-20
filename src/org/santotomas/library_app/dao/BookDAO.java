@@ -22,7 +22,7 @@ public class BookDAO implements ImplentationDAO<Book> {
     @Override
     public List<Book> getAll() throws SQLException {
         String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
-                "FROM book";
+                "FROM book ORDER BY title ASC";
         List<Book> books = new ArrayList<Book>();
         ResultSet resultSet = myDatabase.getConn().createStatement().executeQuery(sql);
 

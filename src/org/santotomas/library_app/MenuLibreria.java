@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -157,7 +158,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
         List<Book> books = bookDAO.getAll();
 
         for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-            dtmLibros.removeRow(i);
+            dtmLibros.removeRow(i - 1);
         }
 
         for (Book book : books) {
@@ -190,7 +191,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 int stock = Integer.parseInt(spnStock.getValue().toString());
                 int categoria = 0;
 
-                switch ( bgCategorias.getSelection().getActionCommand() ) {
+                switch (bgCategorias.getSelection().getActionCommand()) {
                     case "Magia":
                         categoria = 1;
                         break;
@@ -207,46 +208,110 @@ public class MenuLibreria extends JFrame implements ActionListener {
                         categoria = 5;
                         break;
 
-                    default: categoria = 0;
+                    default:
+                        categoria = 0;
                 }
 
-                Book book = new Book();
-                book.setTitle(titulo);
-                book.setAuthor(autor);
-                book.setDescription(descripcion);
-                book.setPrice(precio);
-                book.setStock(stock);
-                book.setCategoryId(categoria);
+                if (titulo.isBlank()) {
+                    JOptionPane.showMessageDialog(this, "Libro sin titulo", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Book book = new Book();
+                    book.setTitle(titulo);
+                    book.setAuthor(autor);
+                    book.setDescription(descripcion);
+                    book.setPrice(precio);
+                    book.setStock(stock);
+                    book.setCategoryId(categoria);
 
-                BookDAO bookDAO = new BookDAO(myDatabase);
+                    BookDAO bookDAO = new BookDAO(myDatabase);
 
-                bookDAO.add(book);
+                    bookDAO.add(book);
 
-                // print result in table
-                updateTable();
+                    // print result in table
+                    updateTable();
 
-                // reset form
-                txtNombreLibro.requestFocus();
+                    // reset form
+                    txtNombreLibro.setText("");
+                    txtAutor.setText("");
+                    txtDescripcion.setText("");
+                    spnPrecio.setValue(0);
+                    spnStock.setValue(0);
 
-                JOptionPane.showMessageDialog(this, "Libro registrado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                    rFantasia.setSelected(false);
+                    rRomance.setSelected(false);
+                    rTerror.setSelected(false);
+                    rSuspenso.setSelected(false);
+                    rMagia.setSelected(false);
 
-            } catch (NumberFormatException ex) {
+                    txtNombreLibro.requestFocus();
+
+                    JOptionPane.showMessageDialog(this, "Libro registrado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "Palabras en Stock o en precio", "Error", JOptionPane.ERROR_MESSAGE);
                 ex.getStackTrace();
             } catch (SQLException throwables) {
-                JOptionPane.showMessageDialog(this, "Error al Registrar el libro", "Error", JOptionPane.ERROR_MESSAGE);
-                throwables.getStackTrace();
+                throwables.printStackTrace();
             }
-
 
         }
 
         if ( e.getSource() == btnActualizar) {
-            new UpdateBook();
+            Book book = new Book(
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
+                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
+                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6)),
+                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7))),
+                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 8)))
+                    );
+
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        UpdateBook updateBook = new UpdateBook(book);
+                        updateTable();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                }
+
+
+            });
         }
 
         if (e.getSource() == btnEliminar) {
-            JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
+            int option = JOptionPane.showConfirmDialog(
+                    this,
+                    "Está seguro", "Eliminar " + dtmLibros.getValueAt(table1.getSelectedRow(), 1),
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            switch (option) {
+                case JOptionPane.YES_OPTION:
+                    BookDAO bookDAO = new BookDAO(myDatabase);
+                    try {
+                        bookDAO.delete(uuid);
+                        updateTable();
+                        JOptionPane.showMessageDialog(this, "Libro eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    break;
+
+                case JOptionPane.NO_OPTION:
+
+                    break;
+            }
         }
 
         if ( e.getSource() == btnCloseSession ) {
