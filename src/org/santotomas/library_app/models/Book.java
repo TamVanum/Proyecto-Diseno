@@ -9,7 +9,6 @@ public class Book {
     private int price;
     private int category_id;
     private String author;
-    private String estate;
     private int stock;
     private Date release_date;
 
@@ -17,14 +16,13 @@ public class Book {
     }
 
     public Book(String isbn, String title, String description, int price, int category_id, String author,
-                String estate, int stock, Date release_date) {
+                int stock, Date release_date) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
         this.price = price;
         this.category_id = category_id;
         this.author = author;
-        this.estate = estate;
         this.stock = stock;
         this.release_date = release_date;
     }
@@ -77,14 +75,6 @@ public class Book {
         this.author = author;
     }
 
-    public String getEstate() {
-        return estate;
-    }
-
-    public void setEstate(String estate) {
-        this.estate = estate;
-    }
-
     public int getStock() {
         return stock;
     }
@@ -110,7 +100,6 @@ public class Book {
                 ", price=" + price +
                 ", category=" + category_id +
                 ", author='" + author + '\'' +
-                ", estate='" + estate + '\'' +
                 ", stock=" + stock +
                 ", release_date=" + release_date +
                 '}';

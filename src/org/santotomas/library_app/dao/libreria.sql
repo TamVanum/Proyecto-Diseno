@@ -41,7 +41,6 @@ CREATE TABLE book (
     price INT NOT NULL,
     category_id_fk INT NULL,
     author VARCHAR(200) NULL,
-    state ENUM('agotado', 'disponible'),
     stock INT NOT NULL DEFAULT 0,
     release_date DATE,
 
@@ -50,5 +49,5 @@ CREATE TABLE book (
 );
 
 INSERT INTO book VALUES 
-(UUID(), 'Harry Potter', 'Un mago muy mago', 20000, 4, 'J. K. Rowling', 'disponible', 30, '1997-03-04');
+(UUID(), 'Harry Potter', 'Un mago muy mago', 20000, 4, 'J. K. Rowling', 30, '1997-03-04');
 

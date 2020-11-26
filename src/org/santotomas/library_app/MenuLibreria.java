@@ -148,7 +148,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
         dtmLibros.addColumn("Precio");
         dtmLibros.addColumn("Categoria");
         dtmLibros.addColumn("Autor(a)");
-        dtmLibros.addColumn("Estado");
         dtmLibros.addColumn("Stock");
         dtmLibros.addColumn("Fecha Salida");
         table1.setModel(dtmLibros);
@@ -185,7 +184,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         add(pnlPanel);
         pack();
-
 
         //Color boton
         btnBuscar.setBackground(Color.decode("#f57f17"));
@@ -345,7 +343,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                     book.getPrice(),
                     book.getCategoryId(),
                     book.getAuthor(),
-                    book.getEstate(),
                     book.getStock(),
                     book.getRelease_date()
             });
@@ -380,7 +377,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                         book.getPrice(),
                         book.getCategoryId(),
                         book.getAuthor(),
-                        book.getEstate(),
                         book.getStock(),
                         book.getRelease_date()
                 });
@@ -455,9 +451,8 @@ public class MenuLibreria extends JFrame implements ActionListener {
                     Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
                     Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
                     String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7))),
-                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 8)))
+                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
+                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
             );
 
             try {

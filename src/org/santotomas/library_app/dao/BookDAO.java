@@ -21,8 +21,8 @@ public class BookDAO implements ImplentationDAO<Book> {
     }
 
     public List<Book> getByLike(String text) throws SQLException {
-        String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
-                "FROM book WHERE title LIKE ?";
+        String sql = "SELECT isbn, title, description, price, category_id_fk, author, stock, release_date " +
+                "FROM book WHERE title LIKE ? ";
         List<Book> books = new ArrayList<>();
 
         PreparedStatement ps = myDatabase.getConn().prepareStatement(sql);
@@ -38,7 +38,6 @@ public class BookDAO implements ImplentationDAO<Book> {
                         rs.getInt("price"),
                         rs.getInt("category_id_fk"),
                         rs.getString("author"),
-                        rs.getString("state"),
                         rs.getInt("stock"),
                         rs.getDate("release_date")
                 ));
@@ -50,7 +49,7 @@ public class BookDAO implements ImplentationDAO<Book> {
 
     @Override
     public List<Book> getAll() throws SQLException {
-        String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
+        String sql = "SELECT isbn, title, description, price, category_id_fk, author, stock, release_date " +
                 "FROM book ORDER BY title ASC";
         List<Book> books = new ArrayList<Book>();
         ResultSet resultSet = myDatabase.getConn().createStatement().executeQuery(sql);
@@ -64,7 +63,6 @@ public class BookDAO implements ImplentationDAO<Book> {
                         resultSet.getInt("price"),
                         resultSet.getInt("category_id_fk"),
                         resultSet.getString("author"),
-                        resultSet.getString("state"),
                         resultSet.getInt("stock"),
                         resultSet.getDate("release_date")
                 ));
@@ -77,7 +75,7 @@ public class BookDAO implements ImplentationDAO<Book> {
 
     @Override
     public Book getByUUID(String uuid) throws SQLException {
-        String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
+        String sql = "SELECT isbn, title, description, price, category_id_fk, author, stock, release_date " +
                 "FROM user WHERE uuid = ?";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
@@ -91,7 +89,6 @@ public class BookDAO implements ImplentationDAO<Book> {
                     int price = resultSet.getInt("price");
                     int categori_id_fk = resultSet.getInt("category_id_fk");
                     String author = resultSet.getString("author");
-                    String estate = resultSet.getString("estate");
                     int stock = resultSet.getInt("stock");
                     Date release = resultSet.getDate("release_date");
 
@@ -102,7 +99,6 @@ public class BookDAO implements ImplentationDAO<Book> {
                     price,
                     categori_id_fk,
                     author,
-                    estate,
                     stock,
                     release
             );
@@ -114,7 +110,7 @@ public class BookDAO implements ImplentationDAO<Book> {
     @Override
     public int add(Book book) throws SQLException {
         String sql = "INSERT INTO book VALUES " +
-                "(UUID(), ?, ?, ?, ?, ?, ?, ?, NOW())";
+                "(UUID(), ?, ?, ?, ?, ?, ?, NOW())";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
         preparedStatement.setString(1, book.getTitle());
@@ -122,7 +118,6 @@ public class BookDAO implements ImplentationDAO<Book> {
         preparedStatement.setInt(3, book.getPrice());
         preparedStatement.setInt(4, book.getCategoryId());
         preparedStatement.setString(5, book.getAuthor());
-        preparedStatement.setString(6, book.getEstate());
         preparedStatement.setInt(7, book.getStock());
         int rowAffected = preparedStatement.executeUpdate();
 
@@ -132,7 +127,7 @@ public class BookDAO implements ImplentationDAO<Book> {
     @Override
     public int update(Book book) throws SQLException {
         String sql = "UPDATE book SET title = ?, description = ?, price = ?, category_id_fk = ?, author = ?, " +
-                "state = ?, stock = ?, release_date = NOW() " +
+                " stock = ?, release_date = NOW() " +
                 "WHERE isbn = ?";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
@@ -141,7 +136,6 @@ public class BookDAO implements ImplentationDAO<Book> {
         preparedStatement.setInt(3, book.getPrice());
         preparedStatement.setInt(4, book.getCategoryId());
         preparedStatement.setString(5, book.getAuthor());
-        preparedStatement.setString(6, book.getEstate());
         preparedStatement.setInt(7, book.getStock());
         preparedStatement.setString(8, book.getIsbn());
         int rowAffected = preparedStatement.executeUpdate();
