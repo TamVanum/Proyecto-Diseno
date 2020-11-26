@@ -110,11 +110,13 @@ public class MenuLibreria extends JFrame implements ActionListener {
         tbdHome.setMnemonicAt(2, KeyEvent.VK_3);
         tbdHome.setMnemonicAt(3, KeyEvent.VK_4);
 
+        btnBuscar.setMnemonic(KeyEvent.VK_B);
         btnAgregar.setMnemonic(KeyEvent.VK_A);
         btnActualizar.setMnemonic(KeyEvent.VK_A);
         btnActualizarTabla.setMnemonic(KeyEvent.VK_T);
         btnEliminar.setMnemonic(KeyEvent.VK_E);
 
+        btnBuscar.addActionListener(this);
         btnAgregar.addActionListener(this);
         btnActualizar.addActionListener(this);
         btnEliminar.addActionListener(this);
@@ -324,6 +326,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 btnGraficar.setForeground(Color.decode("#000000"));
             }
         });
+
     }
 
     public void updateTable() throws SQLException {
@@ -355,6 +358,35 @@ public class MenuLibreria extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if ( e.getSource() == btnBuscar ) {
+            BookDAO bookDAO = new BookDAO(myDatabase);
+            List<Book> books = null;
+            try {
+                books = bookDAO.getByLike(txtBuscar.getText());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+                dtmLibros.removeRow(i - 1);
+            }
+
+            for (Book book : books) {
+                dtmLibros.addRow(new Object[] {
+                        book.getIsbn(),
+                        book.getTitle(),
+                        book.getDescription(),
+                        book.getPrice(),
+                        book.getCategoryId(),
+                        book.getAuthor(),
+                        book.getEstate(),
+                        book.getStock(),
+                        book.getRelease_date()
+                });
+            }
+        }
+
         if ( e.getSource() == btnAgregar) {
             try {
                 String titulo = txtNombreLibro.getText();

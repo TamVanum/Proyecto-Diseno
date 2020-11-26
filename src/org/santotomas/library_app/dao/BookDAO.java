@@ -20,6 +20,34 @@ public class BookDAO implements ImplentationDAO<Book> {
         this.myDatabase = myDatabase;
     }
 
+    public List<Book> getByLike(String text) throws SQLException {
+        String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
+                "FROM book WHERE title LIKE ?";
+        List<Book> books = new ArrayList<>();
+
+        PreparedStatement ps = myDatabase.getConn().prepareStatement(sql);
+        ps.setString(1, "%" + text + "%" );
+        ResultSet rs = ps.executeQuery();
+
+        if ( rs.next() ) {
+            do {
+                books.add(new Book(
+                        rs.getString("isbn"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("price"),
+                        rs.getInt("category_id_fk"),
+                        rs.getString("author"),
+                        rs.getString("state"),
+                        rs.getInt("stock"),
+                        rs.getDate("release_date")
+                ));
+            } while(rs.next());
+        }
+
+        return books;
+    }
+
     @Override
     public List<Book> getAll() throws SQLException {
         String sql = "SELECT isbn, title, description, price, category_id_fk, author, state, stock, release_date " +
