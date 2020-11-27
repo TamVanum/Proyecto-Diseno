@@ -359,8 +359,25 @@ public class MenuLibreria extends JFrame implements ActionListener {
         if ( e.getSource() == btnBuscar ) {
             BookDAO bookDAO = new BookDAO(myDatabase);
             List<Book> books = null;
+
+            String[] chkStrings = new String[] {
+                    chkCategoriaFantasia.isSelected() ? "4" : " ",
+                    chkCategoriaMagia.isSelected() ? "1" : " ",
+                    chkCategoriaRomance.isSelected() ? "5" : " ",
+                    chkCategoriaSuspenso.isSelected() ? "2" : " ",
+                    chkCategoriaTerror.isSelected() ? "3" : " "
+            };
+
+            String categories = "(";
+            for (String chk: chkStrings) {
+                categories += chk + "";
+            }
+            categories += ")";
+
+            System.out.println(categories);
+
             try {
-                books = bookDAO.getByLike(txtBuscar.getText());
+                books = bookDAO.getByLike(txtBuscar.getText(), chkStrings);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

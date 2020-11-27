@@ -20,13 +20,16 @@ public class BookDAO implements ImplentationDAO<Book> {
         this.myDatabase = myDatabase;
     }
 
-    public List<Book> getByLike(String text) throws SQLException {
+    public List<Book> getByLike(String text, String[] chks) throws SQLException {
         String sql = "SELECT isbn, title, description, price, category_id_fk, author, stock, release_date " +
-                "FROM book WHERE title LIKE ? ";
+                "FROM book WHERE title LIKE ? AND category_id_fk IN (?, ?, ?, ?, ?)";
         List<Book> books = new ArrayList<>();
 
         PreparedStatement ps = myDatabase.getConn().prepareStatement(sql);
         ps.setString(1, "%" + text + "%" );
+        for (int i = 2; i <= 6; i++) {
+            ps.setString(i, chks[i - 2]);
+        }
         ResultSet rs = ps.executeQuery();
 
         if ( rs.next() ) {
@@ -118,7 +121,7 @@ public class BookDAO implements ImplentationDAO<Book> {
         preparedStatement.setInt(3, book.getPrice());
         preparedStatement.setInt(4, book.getCategoryId());
         preparedStatement.setString(5, book.getAuthor());
-        preparedStatement.setInt(7, book.getStock());
+        preparedStatement.setInt(6, book.getStock());
         int rowAffected = preparedStatement.executeUpdate();
 
         return rowAffected;
