@@ -20,34 +20,31 @@ public class BookDAO implements ImplentationDAO<Book> {
         this.myDatabase = myDatabase;
     }
 
-    public List<Book> getByLike(String text, String[] chks) throws SQLException {
+    public List<Book> getByLike(String text) throws SQLException {
         String sql = "SELECT isbn, title, description, price, category_id_fk, author, stock, release_date " +
-                "FROM book WHERE title LIKE ? AND category_id_fk IN (?, ?, ?, ?, ?)";
-        List<Book> books = new ArrayList<>();
-
+                "FROM book WHERE title LIKE ? ORDER BY title ASC";
+        List<Book> books = new ArrayList<Book>();
         PreparedStatement ps = myDatabase.getConn().prepareStatement(sql);
-        ps.setString(1, "%" + text + "%" );
-        for (int i = 2; i <= 6; i++) {
-            ps.setString(i, chks[i - 2]);
-        }
-        ResultSet rs = ps.executeQuery();
+        ps.setString(1, "%" + text + "%");
+        ResultSet resultSet = ps.executeQuery();
 
-        if ( rs.next() ) {
+        if ( resultSet.next() ) {
             do {
                 books.add(new Book(
-                        rs.getString("isbn"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getInt("price"),
-                        rs.getInt("category_id_fk"),
-                        rs.getString("author"),
-                        rs.getInt("stock"),
-                        rs.getDate("release_date")
+                        resultSet.getString("isbn"),
+                        resultSet.getString("title"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("price"),
+                        resultSet.getInt("category_id_fk"),
+                        resultSet.getString("author"),
+                        resultSet.getInt("stock"),
+                        resultSet.getDate("release_date")
                 ));
-            } while(rs.next());
+            } while (resultSet.next() );
+            return books;
         }
 
-        return books;
+        return Collections.EMPTY_LIST;
     }
 
     @Override

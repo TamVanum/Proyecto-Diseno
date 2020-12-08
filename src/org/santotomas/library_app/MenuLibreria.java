@@ -325,28 +325,67 @@ public class MenuLibreria extends JFrame implements ActionListener {
             }
         });
 
+        txtBuscar.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                BookDAO bookDAO = new BookDAO(myDatabase);
+                try {
+                    List<Book> bookList = bookDAO.getByLike(txtBuscar.getText());
+                    if ( bookList != null) {
+                        for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+                            dtmLibros.removeRow(i - 1);
+                        }
+
+                        for (Book book : bookList) {
+                            dtmLibros.addRow(new Object[] {
+                                    book.getIsbn(),
+                                    book.getTitle(),
+                                    book.getDescription(),
+                                    book.getPrice(),
+                                    book.getCategoryId(),
+                                    book.getAuthor(),
+                                    book.getStock(),
+                                    book.getRelease_date()
+                            });
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
     }
 
-    public void updateTable() throws SQLException {
+    public void updateTable() {
+
         BookDAO bookDAO = new BookDAO(myDatabase);
-        List<Book> books = bookDAO.getAll();
+        List<Book> books = null;
+        try {
+            books = bookDAO.getAll();
 
-        for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-            dtmLibros.removeRow(i - 1);
+            if ( books != null) {
+                for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+                    dtmLibros.removeRow(i - 1);
+                }
+
+                for (Book book : books) {
+                    dtmLibros.addRow(new Object[] {
+                            book.getIsbn(),
+                            book.getTitle(),
+                            book.getDescription(),
+                            book.getPrice(),
+                            book.getCategoryId(),
+                            book.getAuthor(),
+                            book.getStock(),
+                            book.getRelease_date()
+                    });
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
-        for (Book book : books) {
-            dtmLibros.addRow(new Object[] {
-                    book.getIsbn(),
-                    book.getTitle(),
-                    book.getDescription(),
-                    book.getPrice(),
-                    book.getCategoryId(),
-                    book.getAuthor(),
-                    book.getStock(),
-                    book.getRelease_date()
-            });
-        }
     }
 
     /**
@@ -355,50 +394,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if ( e.getSource() == btnBuscar ) {
-            BookDAO bookDAO = new BookDAO(myDatabase);
-            List<Book> books = null;
-
-            String[] chkStrings = new String[] {
-                    chkCategoriaFantasia.isSelected() ? "4" : " ",
-                    chkCategoriaMagia.isSelected() ? "1" : " ",
-                    chkCategoriaRomance.isSelected() ? "5" : " ",
-                    chkCategoriaSuspenso.isSelected() ? "2" : " ",
-                    chkCategoriaTerror.isSelected() ? "3" : " "
-            };
-
-            String categories = "(";
-            for (String chk: chkStrings) {
-                categories += chk + "";
-            }
-            categories += ")";
-
-            System.out.println(categories);
-
-            try {
-                books = bookDAO.getByLike(txtBuscar.getText(), chkStrings);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
-            for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-                dtmLibros.removeRow(i - 1);
-            }
-
-            for (Book book : books) {
-                dtmLibros.addRow(new Object[] {
-                        book.getIsbn(),
-                        book.getTitle(),
-                        book.getDescription(),
-                        book.getPrice(),
-                        book.getCategoryId(),
-                        book.getAuthor(),
-                        book.getStock(),
-                        book.getRelease_date()
-                });
-            }
-        }
 
         if ( e.getSource() == btnAgregar) {
             try {
@@ -494,19 +489,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 }
             }
 
-            try {
-                updateTable();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            updateTable();
         }
 
         if ( e.getSource() == btnActualizarTabla ) {
-            try {
-                updateTable();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            updateTable();
         }
 
         if ( e.getSource() == btnCloseSession ) {
