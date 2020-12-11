@@ -7,6 +7,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.santotomas.library_app.dao.BookDAO;
+import org.santotomas.library_app.dao.CategoryDAO;
 import org.santotomas.library_app.dao.Database;
 import org.santotomas.library_app.models.Book;
 
@@ -67,11 +68,15 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JTextField txtSemana4;
     private JButton btnGraficar;
     private JButton btnActualizarTabla;
+    private JTextField txtIsbn;
     // endregion
 
     private Database myDatabase;
     private DefaultTableModel dtmLibros;
     private ButtonGroup bgCategorias;
+
+    private CategoryDAO categoryDAO;
+    private BookDAO bookDAO;
 
 
     /**
@@ -86,6 +91,8 @@ public class MenuLibreria extends JFrame implements ActionListener {
         setSize(new Dimension(1280, 640));
         setPreferredSize(new Dimension(1280, 640));
         setVisible(true);
+
+
 
         //Colores tbdHome
         pnlPanel.setBackground(Color.decode("#212121"));
@@ -102,7 +109,9 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        categoryDAO = new CategoryDAO(myDatabase);
+        bookDAO = new BookDAO(myDatabase);
 
         // region Buttons & Mnemonics
         tbdHome.setMnemonicAt(0, KeyEvent.VK_1);
@@ -130,11 +139,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
         bgCategorias.add(rAdultosxxx);
         bgCategorias.add(rAdultos);
 
-        rNino.setActionCommand("Magia");
-        rJovenes.setActionCommand("Suspenso");
-        rJovenesAdultos.setActionCommand("Terror");
-        rAdultos.setActionCommand("Fantasia");
-        rAdultosxxx.setActionCommand("Romance");
+        rNino.setActionCommand("Niños");
+        rJovenes.setActionCommand("Jovenes");
+        rJovenesAdultos.setActionCommand("Jovenes Adultos");
+        rAdultos.setActionCommand("Adultos");
+        rAdultosxxx.setActionCommand("Adultos +18");
         // endregion
 
         btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
@@ -347,6 +356,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                                     book.getAuthor(),
                                     book.getStock(),
                                     book.getRelease_date()
+
                             });
                         }
                     }
@@ -375,7 +385,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                             book.getTitle(),
                             book.getDescription(),
                             book.getPrice(),
-                            book.getCategoryId(),
+                            categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
                             book.getAuthor(),
                             book.getStock(),
                             book.getRelease_date()
@@ -397,6 +407,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         if ( e.getSource() == btnAgregar) {
             try {
+                String isbn = txtIsbn.getText();
                 String titulo = txtNombreLibro.getText();
                 String autor = txtAutor.getText();
                 String descripcion = txtDescripcion.getText();
@@ -405,19 +416,19 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 int categoria = 0;
 
                 switch ( bgCategorias.getSelection().getActionCommand() ) {
-                    case "Magia":
+                    case "Niños":
                         categoria = 1;
                         break;
-                    case "Suspenso":
+                    case "Jovenes":
                         categoria = 2;
                         break;
-                    case "Terror":
+                    case "Jovenes Adultos":
                         categoria = 3;
                         break;
-                    case "Fantasia":
+                    case "Adultos":
                         categoria = 4;
                         break;
-                    case "Romance":
+                    case "Adultos +18":
                         categoria = 5;
                         break;
 
@@ -425,12 +436,15 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 }
 
                 Book book = new Book();
+                book.setIsbn(isbn);
                 book.setTitle(titulo);
                 book.setAuthor(autor);
                 book.setDescription(descripcion);
                 book.setPrice(precio);
                 book.setStock(stock);
                 book.setCategoryId(categoria);
+
+                //daoBrand.getById(product.getBrandIdFk()).getName(),
 
                 BookDAO bookDAO = new BookDAO(myDatabase);
 
