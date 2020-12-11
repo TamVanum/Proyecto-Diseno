@@ -110,15 +110,16 @@ public class BookDAO implements ImplentationDAO<Book> {
     @Override
     public int add(Book book) throws SQLException {
         String sql = "INSERT INTO book VALUES " +
-                "(UUID(), ?, ?, ?, ?, ?, ?, NOW())";
+                "(?, ?, ?, ?, ?, ?, ?, NOW())";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
-        preparedStatement.setString(1, book.getTitle());
-        preparedStatement.setString(2, book.getDescription());
-        preparedStatement.setInt(3, book.getPrice());
-        preparedStatement.setInt(4, book.getCategoryId());
-        preparedStatement.setString(5, book.getAuthor());
-        preparedStatement.setInt(6, book.getStock());
+        preparedStatement.setString(1, book.getIsbn());
+        preparedStatement.setString(2, book.getTitle());
+        preparedStatement.setString(3, book.getDescription());
+        preparedStatement.setInt(4, book.getPrice());
+        preparedStatement.setInt(5, book.getCategoryId());
+        preparedStatement.setString(6, book.getAuthor());
+        preparedStatement.setInt(7, book.getStock());
         int rowAffected = preparedStatement.executeUpdate();
 
         return rowAffected;
