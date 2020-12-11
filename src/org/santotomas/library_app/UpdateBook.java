@@ -218,51 +218,63 @@ public class UpdateBook extends JFrame implements ActionListener {
                 int stock = Integer.parseInt(spnStock.getValue().toString());
                 int category = 1;
 
-                switch (bgCategory.getSelection().getActionCommand()) {
-                    case "Niños":
-                        category = 1;
-                        break;
-                    case "Jovenes":
-                        category = 2;
-                        break;
-                    case "Jovenes Adultos":
-                        category = 3;
-                        break;
-                    case "Adultos":
-                        category = 4;
-                        break;
-                    case "Adultos +18":
-                        category = 5;
-                        break;
+                if ( bgCategory.getSelection() != null ) {
+                    switch (bgCategory.getSelection().getActionCommand()) {
+                        case "Niños":
+                            category = 1;
+                            break;
+                        case "Jovenes":
+                            category = 2;
+                            break;
+                        case "Jovenes Adultos":
+                            category = 3;
+                            break;
+                        case "Adultos":
+                            category = 4;
+                            break;
+                        case "Adultos +18":
+                            category = 5;
+                            break;
 
-                    default:
-                        category = 1;
-                }
+                        default:
+                            category = 1;
+                    }
 
-                if (titulo.isBlank()) {
-                    JOptionPane.showMessageDialog(this, "Libro sin titulo", "Error", JOptionPane.ERROR_MESSAGE);
+                    if (titulo.isBlank()) {
+                        JOptionPane.showMessageDialog(this, "Libro sin titulo", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Book book = new Book();
+                        book.setIsbn(this.book.getIsbn());
+                        book.setTitle(titulo);
+                        book.setAuthor(autor);
+                        book.setDescription(descripcion);
+                        book.setPrice(precio);
+                        book.setStock(stock);
+                        book.setCategoryId(category);
+
+                        bookDAO.update(book);
+
+                        JOptionPane.showMessageDialog(this, "Libro Modificado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    }
+
                 } else {
-                    Book book = new Book();
-                    book.setIsbn(this.book.getIsbn());
-                    book.setTitle(titulo);
-                    book.setAuthor(autor);
-                    book.setDescription(descripcion);
-                    book.setPrice(precio);
-                    book.setStock(stock);
-                    book.setCategoryId(category);
-
-                    bookDAO.update(book);
-
-                    JOptionPane.showMessageDialog(this, "Libro Modificado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "No category selected!",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE
+                    );
                 }
+
+
             } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "Palabras en Stock o en precio", "Error", JOptionPane.ERROR_MESSAGE);
                 ex.getStackTrace();
             } catch (SQLException throwables) {
+                JOptionPane.showMessageDialog(this, "Error sql", "Error", JOptionPane.ERROR_MESSAGE);
                 throwables.printStackTrace();
             }
-
-            dispose();
         }
     }
 }

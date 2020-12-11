@@ -505,19 +505,31 @@ public class MenuLibreria extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == btnEliminar) {
-            String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
-            int option = JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selectedRow = table1.getSelectedRow();
 
-            if (option == JOptionPane.YES_OPTION) {
-                BookDAO bookDAO = new BookDAO(myDatabase);
-                try {
-                    bookDAO.delete(uuid);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+            if (selectedRow != -1) {
+                String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
+                int option = JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if (option == JOptionPane.YES_OPTION) {
+                    BookDAO bookDAO = new BookDAO(myDatabase);
+                    try {
+                        bookDAO.delete(uuid);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
+
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No row selected!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
 
-            updateTable();
         }
 
         if ( e.getSource() == btnActualizarTabla ) {
