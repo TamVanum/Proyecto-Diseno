@@ -21,6 +21,7 @@ import org.santotomas.library_app.table.render.BookTableRender;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
@@ -173,7 +174,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         tableModel.refreshTable(bookDAO.getAll());
 
-        table1.setDefaultRenderer(Integer.class, new BookTableRender());
+
+        table1.setDefaultRenderer(Integer.class, new BookTableRender(myDatabase));
+        table1.setDefaultRenderer(String.class, new BookTableRender(myDatabase));
+        table1.setDefaultRenderer(Integer.class, new BookTableRender(myDatabase));
+        table1.setDefaultRenderer(Date.class, new BookTableRender(myDatabase));
 
         /** add panel */
 
@@ -377,22 +382,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 try {
                     List<Book> bookList = bookDAO.getByLike(txtBuscar.getText());
                     if ( bookList != null) {
-                        for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-                            dtmLibros.removeRow(i - 1);
-                        }
-
-                        for (Book book : bookList) {
-                            dtmLibros.addRow(new Object[] {
-                                    book.getIsbn(),
-                                    book.getTitle(),
-                                    book.getDescription(),
-                                    book.getPrice(),
-                                    categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
-                                    book.getAuthor(),
-                                    book.getStock(),
-                                    book.getRelease_date()
-                            });
-                        }
+                        tableModel.refreshTable(bookList);
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -409,22 +399,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
             books = bookDAO.getAll();
 
             if ( books != null) {
-                for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-                    dtmLibros.removeRow(i - 1);
-                }
-
-                for (Book book : books) {
-                    dtmLibros.addRow(new Object[] {
-                            book.getIsbn(),
-                            book.getTitle(),
-                            book.getDescription(),
-                            book.getPrice(),
-                            categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
-                            book.getAuthor(),
-                            book.getStock(),
-                            book.getRelease_date()
-                    });
-                }
+                tableModel.refreshTable(books);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -454,22 +429,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
             books = bookDAO.getByLike(txtBuscar.getText(), chkStrings);
 
             if ( books != null ) {
-                for (int i = dtmLibros.getRowCount(); i > 0; i--) {
-                    dtmLibros.removeRow(i - 1);
-                }
-
-                for (Book book : books) {
-                    dtmLibros.addRow(new Object[] {
-                            book.getIsbn(),
-                            book.getTitle(),
-                            book.getDescription(),
-                            book.getPrice(),
-                            categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
-                            book.getAuthor(),
-                            book.getStock(),
-                            book.getRelease_date()
-                    });
-                }
+                tableModel.refreshTable(books);
             }
         }
 
@@ -541,14 +501,14 @@ public class MenuLibreria extends JFrame implements ActionListener {
             int selectedRow = table1.getSelectedRow();
             if ( selectedRow != -1 ) {
                 Book book = new Book(
-                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
-                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
-                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
-                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
-                        categoryDAO.getByName(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))).getId(),
-                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
-                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
-                        Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
+                        String.valueOf(tableModel.getValueAt(selectedRow, 0)),
+                        String.valueOf(tableModel.getValueAt(selectedRow, 1)),
+                        String.valueOf(tableModel.getValueAt(selectedRow, 2)),
+                        Integer.parseInt(String.valueOf(tableModel.getValueAt(selectedRow, 3))),
+                        categoryDAO.getByUUID(String.valueOf(tableModel.getValueAt(selectedRow, 4))).getId(),
+                        String.valueOf(tableModel.getValueAt(selectedRow, 5)),
+                        Integer.parseInt(String.valueOf(tableModel.getValueAt(selectedRow, 6))),
+                        Date.valueOf(String.valueOf(tableModel.getValueAt(selectedRow, 7)))
                 );
 
                 try {
@@ -570,7 +530,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
             int selectedRow = table1.getSelectedRow();
 
             if (selectedRow != -1) {
-                String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
+                String uuid = String.valueOf(tableModel.getValueAt(table1.getSelectedRow(), 0));
                 int option = JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if (option == JOptionPane.YES_OPTION) {
