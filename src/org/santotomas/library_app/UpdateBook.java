@@ -249,7 +249,6 @@ public class UpdateBook extends JFrame implements ActionListener {
                     book.setDescription(descripcion);
                     book.setPrice(precio);
                     book.setStock(stock);
-                    book.setCategoryId(category);
 
                     bookDAO.update(book);
 

@@ -343,7 +343,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                                     book.getTitle(),
                                     book.getDescription(),
                                     book.getPrice(),
-                                    book.getCategoryId(),
                                     book.getAuthor(),
                                     book.getStock(),
                                     book.getRelease_date()
@@ -375,7 +374,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                             book.getTitle(),
                             book.getDescription(),
                             book.getPrice(),
-                            book.getCategoryId(),
                             book.getAuthor(),
                             book.getStock(),
                             book.getRelease_date()
@@ -430,7 +428,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 book.setDescription(descripcion);
                 book.setPrice(precio);
                 book.setStock(stock);
-                book.setCategoryId(categoria);
 
                 BookDAO bookDAO = new BookDAO(myDatabase);
 
@@ -456,11 +453,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
         }
 
         if ( e.getSource() == btnActualizar) {
-            Book book = new Book(
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
+            Book book = new Book (
+                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0))),
                     String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
                     String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
+                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3)),
                     Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
                     String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
                     Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),

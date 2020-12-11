@@ -58,6 +58,11 @@ public class UserDAO implements ImplentationDAO<User> {
         return null;
     }
 
+    @Override
+    public User getById(int id) {
+        return null;
+    }
+
     public User login(String user_name, String password) throws SQLException {
         String sql = "SELECT uuid, user_name, permission FROM user " +
                 "WHERE user_name = ? AND password = SHA2(?, 512) AND permission = 'Admin'";
