@@ -17,6 +17,7 @@ import org.santotomas.library_app.dao.Database;
 import org.santotomas.library_app.models.Book;
 import org.santotomas.library_app.models.Category;
 import org.santotomas.library_app.table.models.BookTableModel;
+import org.santotomas.library_app.table.render.BookTableRender;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -113,7 +114,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
         categoryDAO = new CategoryDAO(myDatabase);
         bookDAO = new BookDAO(myDatabase);
 
@@ -166,10 +167,13 @@ public class MenuLibreria extends JFrame implements ActionListener {
         dtmLibros.addColumn("Fecha Salida");
         table1.setModel(dtmLibros);
          */
+
         tableModel = new BookTableModel(bookDAO.getAll());
         table1.setModel(tableModel);
 
         tableModel.refreshTable(bookDAO.getAll());
+
+        table1.setDefaultRenderer(Integer.class, new BookTableRender());
 
         /** add panel */
 
