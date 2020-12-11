@@ -113,7 +113,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
         categoryDAO = new CategoryDAO(myDatabase);
         bookDAO = new BookDAO(myDatabase);
 
@@ -277,6 +277,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
         btnGraficar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pnlGraficador.removeAll();
 
                 pnlGraficador.setOpaque(true);
                 DefaultCategoryDataset oDataSet = new DefaultCategoryDataset();
@@ -310,7 +311,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 }
 
 
-                JFreeChart oChart = ChartFactory.createBarChart3D("Proyeccion", "Libros", "Libros si", oDataSet, PlotOrientation.VERTICAL, true, true, false);
+                JFreeChart oChart = ChartFactory.createBarChart3D("Proyeccion", "Libros", "Stock * Precio", oDataSet, PlotOrientation.VERTICAL, true, true, false);
 
                 CategoryPlot plot = new CategoryPlot();
                 plot.setRangeGridlinePaint(Color.black);

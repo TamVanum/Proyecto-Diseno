@@ -61,7 +61,7 @@ public class Login extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
 
         // Inicializamos y configuramos el Panel principal donde tendremos los campos para logearse
         pMain = new JPanel();
