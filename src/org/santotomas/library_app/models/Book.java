@@ -3,11 +3,11 @@ package org.santotomas.library_app.models;
 import java.util.Date;
 
 public class Book {
-    private String isbn; // uuid
+    private int id;
+    private String isbn; // estandaraized
     private String title;
     private String description;
     private int price;
-    private int category_id;
     private String author;
     private int stock;
     private Date release_date;
@@ -15,16 +15,23 @@ public class Book {
     public Book() {
     }
 
-    public Book(String isbn, String title, String description, int price, int category_id, String author,
-                int stock, Date release_date) {
+    public Book(int id, String isbn, String title, String description, int price, String author, int stock, Date release_date) {
+        this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.description = description;
         this.price = price;
-        this.category_id = category_id;
         this.author = author;
         this.stock = stock;
         this.release_date = release_date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getIsbn() {
@@ -59,14 +66,6 @@ public class Book {
         this.price = price;
     }
 
-    public int getCategoryId() {
-        return category_id;
-    }
-
-    public void setCategoryId(int category_id) {
-        this.category_id = category_id;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -89,19 +88,5 @@ public class Book {
 
     public void setRelease_date(Date release_date) {
         this.release_date = release_date;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", category=" + category_id +
-                ", author='" + author + '\'' +
-                ", stock=" + stock +
-                ", release_date=" + release_date +
-                '}';
     }
 }
