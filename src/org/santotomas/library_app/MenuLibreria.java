@@ -17,6 +17,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MenuLibreria extends JFrame implements ActionListener {
@@ -62,10 +64,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JPanel pnlGrafico;
     private JPanel pnlContenidoGrafico;
     private JPanel pnlGraficador;
-    private JTextField txtSemana1;
-    private JTextField txtSemana2;
-    private JTextField txtSemana3;
-    private JTextField txtSemana4;
     private JButton btnGraficar;
     private JButton btnActualizarTabla;
     private JTextField txtIsbn;
@@ -277,20 +275,29 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 pnlGraficador.setOpaque(true);
                 XYSeries oSeries = new XYSeries("Stock de libros");
 
-                int semana1 = Integer.parseInt(txtSemana1.getText());
-                int semana2 = Integer.parseInt(txtSemana2.getText());
-                int semana3 = Integer.parseInt(txtSemana3.getText());
-                int semana4 = Integer.parseInt(txtSemana4.getText());
+                BookDAO bookDAO = new BookDAO(myDatabase);
+                List<Book> books = null;
+                List<Integer> calculo = new ArrayList<>();
+                 try {
+                    books = bookDAO.getAll();
 
-                oSeries.add(1, semana1);
-                oSeries.add(2, semana2);
-                oSeries.add(3, semana3);
-                oSeries.add(4, semana4);
+                    if ( books != null) {
+                        for (Book book : books) {
+                            calculo.add(book.getPrice() * book.getStock());
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                for (int formula : calculo) {
+                    oSeries.add(calculo.indexOf(formula), formula);
+                }
+
 
                 XYSeriesCollection oDataset = new XYSeriesCollection();
                 oDataset.addSeries(oSeries);
 
-                JFreeChart oChart = ChartFactory.createXYLineChart("Venta de libros", "Semanas", "Cantidad", oDataset, PlotOrientation.VERTICAL, true, false, false);
+                JFreeChart oChart = ChartFactory.createXYLineChart("Venta de libros", "Libros", "Cantidad", oDataset, PlotOrientation.VERTICAL, true, false, false);
 
                 ChartPanel oPanel = new ChartPanel(oChart);
                 pnlGraficador.setLayout(new java.awt.BorderLayout());
@@ -352,11 +359,10 @@ public class MenuLibreria extends JFrame implements ActionListener {
                                     book.getTitle(),
                                     book.getDescription(),
                                     book.getPrice(),
-                                    book.getCategoryId(),
+                                    categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
                                     book.getAuthor(),
                                     book.getStock(),
                                     book.getRelease_date()
-
                             });
                         }
                     }
