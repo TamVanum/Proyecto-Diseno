@@ -109,7 +109,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
         categoryDAO = new CategoryDAO(myDatabase);
         bookDAO = new BookDAO(myDatabase);
 
@@ -470,23 +470,31 @@ public class MenuLibreria extends JFrame implements ActionListener {
         }
 
         if ( e.getSource() == btnActualizar) {
-            Book book = new Book(
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
-                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
-            );
+            int selectedRow = table1.getSelectedRow();
+            if ( selectedRow != -1 ) {
+                Book book = new Book(
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
+                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
+                        categoryDAO.getByName(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))).getId(),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
+                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
+                        Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
+                );
 
-            try {
-                new UpdateBook(book);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
+                try {
+                    new UpdateBook(book);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No row selected!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
         }
 

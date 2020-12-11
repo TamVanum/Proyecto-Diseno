@@ -54,7 +54,7 @@ public class UpdateBook extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
 
         /* Definir nuestro titulo y lo dejamos en la parte de arriba de nuestra ventana */
         lblTitle = new JLabel("Modificar Libro", SwingConstants.CENTER);
@@ -124,7 +124,7 @@ public class UpdateBook extends JFrame implements ActionListener {
         setGridCustom(1, 6, 2, 1, RIGHT_MARGIN);
         pMain.add(spnStock, gbc);
 
-        /* Stock */
+        /* Precio */
         lblPrice = new JLabel("Precio:");
         setGridCustom(0, 7, 1, 1, LEFT_MARGIN);
         pMain.add(lblPrice, gbc);
@@ -219,19 +219,19 @@ public class UpdateBook extends JFrame implements ActionListener {
                 int category = 1;
 
                 switch (bgCategory.getSelection().getActionCommand()) {
-                    case "Magia":
+                    case "Niños":
                         category = 1;
                         break;
-                    case "Suspenso":
+                    case "Jovenes":
                         category = 2;
                         break;
-                    case "Terror":
+                    case "Jovenes Adultos":
                         category = 3;
                         break;
-                    case "Fantasia":
+                    case "Adultos":
                         category = 4;
                         break;
-                    case "Romance":
+                    case "Adultos +18":
                         category = 5;
                         break;
 

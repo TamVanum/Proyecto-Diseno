@@ -20,12 +20,10 @@ public class Main {
                 Login login = null;
                 try {
                     login = new Login("Login"); // Al iniciar el programa creamos la ventana del Login
-                } catch (SQLException throwables) {
-                    JOptionPane.showMessageDialog(null, "Error de Conexion: " + throwables.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    JOptionPane.showMessageDialog(null, "No se encuentran los drivers: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error de Conexion: " + throwables.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    System.exit(1);
                 }
             }
         });

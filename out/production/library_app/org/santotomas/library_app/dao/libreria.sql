@@ -1,4 +1,3 @@
-
 DROP DATABASE library;
 CREATE DATABASE library;
 USE library;
@@ -30,7 +29,7 @@ INSERT INTO category (name) VALUES
 ('Niños'),
 ('Jovenes'),
 ('Jovenes Adultos'),
-('Aultos'),
+('Adultos'),
 ('Adultos +18');
 
 
@@ -54,4 +53,3 @@ INSERT INTO book VALUES
 ('956-1-22334-x', 'Farenheigth', 'jaja salu2 compa tomás', 40000, 4, 'Ray Bradbury', 50, CURRENT_DATE()),
 ('956-12-2335-x', 'Papelucho y el marciano', 'Lo leí a los 5 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE()),
 ('956-12-2334-x', 'Papelucho y el historiador', 'Lo leí a los 18 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE());
-

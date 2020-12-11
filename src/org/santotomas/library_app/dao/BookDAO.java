@@ -128,7 +128,7 @@ public class BookDAO implements ImplentationDAO<Book> {
     @Override
     public int update(Book book) throws SQLException {
         String sql = "UPDATE book SET title = ?, description = ?, price = ?, category_id_fk = ?, author = ?, " +
-                " stock = ?, release_date = NOW() " +
+                " stock = ?, release_date = CURRENT_DATE() " +
                 "WHERE isbn = ?";
 
         PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
@@ -137,8 +137,8 @@ public class BookDAO implements ImplentationDAO<Book> {
         preparedStatement.setInt(3, book.getPrice());
         preparedStatement.setInt(4, book.getCategoryId());
         preparedStatement.setString(5, book.getAuthor());
-        preparedStatement.setInt(7, book.getStock());
-        preparedStatement.setString(8, book.getIsbn());
+        preparedStatement.setInt(6, book.getStock());
+        preparedStatement.setString(7, book.getIsbn());
         int rowAffected = preparedStatement.executeUpdate();
 
         return rowAffected;
