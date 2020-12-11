@@ -25,11 +25,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JTabbedPane tbdHome;
     private JPanel pnlBuscar;
     private JTextField txtBuscar;
-    private JCheckBox chkCategoriaTerror;
-    private JCheckBox chkCategoriaFantasia;
-    private JCheckBox chkCategoriaMagia;
-    private JCheckBox chkCategoriaSuspenso;
-    private JCheckBox chkCategoriaRomance;
+    private JCheckBox chkCategoriaAdultos;
+    private JCheckBox chkCategoriaJovenesAdultos;
+    private JCheckBox chkCategoriaNinos;
+    private JCheckBox chkCategoriaJovenes;
+    private JCheckBox chkCategoriaAdultosxxx;
     private JButton btnBuscar;
     private JButton btnActualizar;
     private JButton btnEliminar;
@@ -53,11 +53,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JLabel lblPrecio;
     private JSpinner spnPrecio;
     private JSpinner spnStock;
-    private JRadioButton rMagia;
-    private JRadioButton rSuspenso;
-    private JRadioButton rTerror;
-    private JRadioButton rFantasia;
-    private JRadioButton rRomance;
+    private JRadioButton rNino;
+    private JRadioButton rJovenes;
+    private JRadioButton rJovenesAdultos;
+    private JRadioButton rAdultos;
+    private JRadioButton rAdultosxxx;
     private JPanel pnlGrafico;
     private JPanel pnlContenidoGrafico;
     private JPanel pnlGraficador;
@@ -124,17 +124,17 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         // region Radio Buttons Group
         bgCategorias = new ButtonGroup();
-        bgCategorias.add(rMagia);
-        bgCategorias.add(rSuspenso);
-        bgCategorias.add(rTerror);
-        bgCategorias.add(rRomance);
-        bgCategorias.add(rFantasia);
+        bgCategorias.add(rNino);
+        bgCategorias.add(rJovenes);
+        bgCategorias.add(rJovenesAdultos);
+        bgCategorias.add(rAdultosxxx);
+        bgCategorias.add(rAdultos);
 
-        rMagia.setActionCommand("Magia");
-        rSuspenso.setActionCommand("Suspenso");
-        rTerror.setActionCommand("Terror");
-        rFantasia.setActionCommand("Fantasia");
-        rRomance.setActionCommand("Romance");
+        rNino.setActionCommand("Magia");
+        rJovenes.setActionCommand("Suspenso");
+        rJovenesAdultos.setActionCommand("Terror");
+        rAdultos.setActionCommand("Fantasia");
+        rAdultosxxx.setActionCommand("Romance");
         // endregion
 
         btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
