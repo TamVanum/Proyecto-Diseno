@@ -233,61 +233,6 @@
                   <text value="Agregar"/>
                 </properties>
               </component>
-              <grid id="d3861" binding="pCategorias" layout-manager="GridBagLayout">
-                <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                  <gridbag top="5" left="5" bottom="5" right="5" weightx="2.0" weighty="3.0"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="20292" class="javax.swing.JRadioButton" binding="rMagia">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Magia"/>
-                    </properties>
-                  </component>
-                  <component id="e7ff1" class="javax.swing.JRadioButton" binding="rSuspenso">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Suspenso"/>
-                    </properties>
-                  </component>
-                  <component id="5184a" class="javax.swing.JRadioButton" binding="rTerror">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Terror"/>
-                    </properties>
-                  </component>
-                  <component id="f2049" class="javax.swing.JRadioButton" binding="rFantasia">
-                    <constraints>
-                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Fantasia"/>
-                    </properties>
-                  </component>
-                  <component id="38656" class="javax.swing.JRadioButton" binding="rRomance">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <text value="Romance"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
               <component id="82f69" class="javax.swing.JLabel" binding="lblPrecio">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -320,6 +265,20 @@
                 </constraints>
                 <properties/>
               </component>
+              <scrollpane id="c3e9b">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="3e24d" class="javax.swing.JList" binding="listCategory">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
           <grid id="a7a3f" binding="pnlGrafico" layout-manager="GridBagLayout">
