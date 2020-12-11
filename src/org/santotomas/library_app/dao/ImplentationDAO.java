@@ -9,5 +9,4 @@ public interface ImplentationDAO<T> {
     public int add(T t) throws SQLException;
     public int update(T t) throws SQLException;
     public int delete(String uuid) throws SQLException;
-
 }

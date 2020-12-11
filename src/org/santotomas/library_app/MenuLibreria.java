@@ -113,7 +113,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
         categoryDAO = new CategoryDAO(myDatabase);
         bookDAO = new BookDAO(myDatabase);
 
@@ -430,6 +430,40 @@ public class MenuLibreria extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if ( e.getSource() == btnBuscar ) {
+            BookDAO bookDAO = new BookDAO(myDatabase);
+            List<Book> books = null;
+
+            String[] chkStrings = new String[] {
+                    chkCategoriaAdultos.isSelected() ? "4" : " ",
+                    chkCategoriaNinos.isSelected() ? "1" : " ",
+                    chkCategoriaAdultosxxx.isSelected() ? "5" : " ",
+                    chkCategoriaJovenes.isSelected() ? "2" : " ",
+                    chkCategoriaJovenesAdultos.isSelected() ? "3" : " "
+            };
+
+            books = bookDAO.getByLike(txtBuscar.getText(), chkStrings);
+
+            if ( books != null ) {
+                for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+                    dtmLibros.removeRow(i - 1);
+                }
+
+                for (Book book : books) {
+                    dtmLibros.addRow(new Object[] {
+                            book.getIsbn(),
+                            book.getTitle(),
+                            book.getDescription(),
+                            book.getPrice(),
+                            categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
+                            book.getAuthor(),
+                            book.getStock(),
+                            book.getRelease_date()
+                    });
+                }
+            }
+        }
+
         if ( e.getSource() == btnAgregar) {
             try {
                 String isbn = txtIsbn.getText();
@@ -495,40 +529,60 @@ public class MenuLibreria extends JFrame implements ActionListener {
         }
 
         if ( e.getSource() == btnActualizar) {
-            Book book = new Book(
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))),
-                    String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
-                    Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
-                    Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
-            );
+            int selectedRow = table1.getSelectedRow();
+            if ( selectedRow != -1 ) {
+                Book book = new Book(
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0)),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 1)),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 2)),
+                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 3))),
+                        categoryDAO.getByName(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 4))).getId(),
+                        String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 5)),
+                        Integer.parseInt(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 6))),
+                        Date.valueOf(String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 7)))
+                );
 
-            try {
-                new UpdateBook(book);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
+                try {
+                    new UpdateBook(book);
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No row selected!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
         }
 
         if (e.getSource() == btnEliminar) {
-            String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
-            int option = JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selectedRow = table1.getSelectedRow();
 
-            if (option == JOptionPane.YES_OPTION) {
-                BookDAO bookDAO = new BookDAO(myDatabase);
-                try {
-                    bookDAO.delete(uuid);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
+            if (selectedRow != -1) {
+                String uuid = String.valueOf(dtmLibros.getValueAt(table1.getSelectedRow(), 0));
+                int option = JOptionPane.showConfirmDialog(this, "Está seguro,", "Eliminar libro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if (option == JOptionPane.YES_OPTION) {
+                    BookDAO bookDAO = new BookDAO(myDatabase);
+                    try {
+                        bookDAO.delete(uuid);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
+
+                updateTable();
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No row selected!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
 
-            updateTable();
         }
 
         if ( e.getSource() == btnActualizarTabla ) {
