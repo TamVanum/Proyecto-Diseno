@@ -102,7 +102,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
 
         // region Buttons & Mnemonics
         tbdHome.setMnemonicAt(0, KeyEvent.VK_1);

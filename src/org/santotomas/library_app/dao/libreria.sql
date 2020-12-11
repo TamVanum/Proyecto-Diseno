@@ -49,9 +49,9 @@ CREATE TABLE book (
 );
 
 INSERT INTO book VALUES 
-(UUID(), 'Harry Potter', 'Un mago muy mago', 20000, 4, 'J. K. Rowling', 30, CURRENT_DATE()),
-(UUID(), 'Harry el sucio', 'Un mago muy sucio', 2000, 4, 'Samuel Murillo', 5, CURRENT_DATE()),
-(UUID(), 'Farenheigth', 'jaja salu2 compa tomás', 40000, 4, 'Ray Bradbury', 50, CURRENT_DATE()),
-(UUID(), 'Papelucho y el marciano', 'Lo leí a los 5 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE()),
-(UUID(), 'Papelucho y el historiador', 'Lo leí a los 18 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE());
+('956-125-234-x', 'Harry Potter', 'Un mago muy mago', 20000, 4, 'J. K. Rowling', 30, CURRENT_DATE()),
+('956-15-2734-x', 'Harry el sucio', 'Un mago muy sucio', 2000, 4, 'Samuel Murillo', 5, CURRENT_DATE()),
+('956-1-22334-x', 'Farenheigth', 'jaja salu2 compa tomás', 40000, 4, 'Ray Bradbury', 50, CURRENT_DATE()),
+('956-12-2335-x', 'Papelucho y el marciano', 'Lo leí a los 5 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE()),
+('956-12-2334-x', 'Papelucho y el historiador', 'Lo leí a los 18 años', 5000, 4, 'Marcela Paz', 100, CURRENT_DATE());
 
