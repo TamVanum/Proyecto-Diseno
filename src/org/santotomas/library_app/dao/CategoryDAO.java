@@ -39,29 +39,32 @@ public class CategoryDAO implements ImplentationDAO<Category>{
                 );
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.getStackTrace();
         }
         return category;
     }
 
     @Override
-    public Category getByUUID(String uuid) throws SQLException {
+    public Category getByUUID(String uuid) {
         String sql = "SELECT id, name FROM category WHERE id = ?";
         Category category = null;
 
-        PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql);
-        preparedStatement.setInt(1, Integer.parseInt(uuid));
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if ( resultSet.next() ) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            category = new Category(
-                    id,
-                    name
-            );
+        ResultSet resultSet;
+        try (PreparedStatement preparedStatement = myDatabase.getConn().prepareStatement(sql)) {
+            preparedStatement.setInt(1, Integer.parseInt(uuid));
+            resultSet = preparedStatement.executeQuery();
+            if ( resultSet.next() ) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                category = new Category(
+                        id,
+                        name
+                );
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.getStackTrace();
         }
-
         return category;
     }
 

@@ -411,6 +411,40 @@ public class MenuLibreria extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if ( e.getSource() == btnBuscar ) {
+            BookDAO bookDAO = new BookDAO(myDatabase);
+            List<Book> books = null;
+
+            String[] chkStrings = new String[] {
+                    chkCategoriaAdultos.isSelected() ? "4" : " ",
+                    chkCategoriaNinos.isSelected() ? "1" : " ",
+                    chkCategoriaAdultosxxx.isSelected() ? "5" : " ",
+                    chkCategoriaJovenes.isSelected() ? "2" : " ",
+                    chkCategoriaJovenesAdultos.isSelected() ? "3" : " "
+            };
+
+            books = bookDAO.getByLike(txtBuscar.getText(), chkStrings);
+
+            if ( books != null ) {
+                for (int i = dtmLibros.getRowCount(); i > 0; i--) {
+                    dtmLibros.removeRow(i - 1);
+                }
+
+                for (Book book : books) {
+                    dtmLibros.addRow(new Object[] {
+                            book.getIsbn(),
+                            book.getTitle(),
+                            book.getDescription(),
+                            book.getPrice(),
+                            categoryDAO.getByUUID(String.valueOf(book.getCategoryId())).getName(),
+                            book.getAuthor(),
+                            book.getStock(),
+                            book.getRelease_date()
+                    });
+                }
+            }
+        }
+
         if ( e.getSource() == btnAgregar) {
             try {
                 String isbn = txtIsbn.getText();
