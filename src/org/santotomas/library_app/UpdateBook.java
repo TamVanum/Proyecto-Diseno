@@ -21,7 +21,7 @@ public class UpdateBook extends JFrame implements ActionListener {
     private JLabel lblTitle, lblNameBook, lblNameAuthor, lblISBN, lblDescription, lblCategories, lblStock, lblPrice;
     private JTextField txtNameBook, txtNameAuthor, txtISBN, txtDescription;
     private JSpinner spnStock, spnPrice;
-    private JRadioButton rMagic, rSuspense, rTerror, rFantasy, rRomance;
+    private JRadioButton rNinos, rJovenes, rJovenesAdultos, rAdultos, rAdultosxxx;
     private JButton btnActualizar;
 
     private ButtonGroup bgCategory;
@@ -143,32 +143,32 @@ public class UpdateBook extends JFrame implements ActionListener {
         pCategories = new JPanel();
         pCategories.setLayout(new GridLayout(4, 5, 10, 10));
 
-        rMagic = new JRadioButton("Magia");
-        rMagic.setActionCommand("Magia");
-        pCategories.add(rMagic);
+        rNinos = new JRadioButton("Niños");
+        rNinos.setActionCommand("Niños");
+        pCategories.add(rNinos);
 
-        rSuspense = new JRadioButton("Suspenso");
-        rSuspense.setActionCommand("Suspenso");
-        pCategories.add(rSuspense);
+        rJovenes = new JRadioButton("Jovenes");
+        rJovenes.setActionCommand("Jovenes");
+        pCategories.add(rJovenes);
 
-        rTerror = new JRadioButton("Terror");
-        rTerror.setActionCommand("Terror");
-        pCategories.add(rTerror);
+        rJovenesAdultos = new JRadioButton("Jovenes Adultos");
+        rJovenesAdultos.setActionCommand("Jovenes Adultos");
+        pCategories.add(rJovenesAdultos);
 
-        rFantasy = new JRadioButton("Fantasia");
-        rFantasy.setActionCommand("Fantasia");
-        pCategories.add(rFantasy);
+        rAdultos = new JRadioButton("Adultos");
+        rAdultos.setActionCommand("Adultos");
+        pCategories.add(rAdultos);
 
-        rRomance = new JRadioButton("Romance");
-        rRomance.setActionCommand("Romance");
-        pCategories.add(rRomance);
+        rAdultosxxx = new JRadioButton("Adultos +18");
+        rAdultosxxx.setActionCommand("Adultos +18");
+        pCategories.add(rAdultosxxx);
 
         bgCategory = new ButtonGroup();
-        bgCategory.add(rFantasy);
-        bgCategory.add(rMagic);
-        bgCategory.add(rRomance);
-        bgCategory.add(rSuspense);
-        bgCategory.add(rTerror);
+        bgCategory.add(rAdultos);
+        bgCategory.add(rNinos);
+        bgCategory.add(rAdultosxxx);
+        bgCategory.add(rJovenes);
+        bgCategory.add(rJovenesAdultos);
 
         setGridCustom(0, 5, 3, 1, Y_MARGIN);
         pMain.add(pCategories, gbc);

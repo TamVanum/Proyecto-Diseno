@@ -27,11 +27,11 @@ CREATE TABLE category(
 );
 
 INSERT INTO category (name) VALUES 
-('Magia'),
-('Suspenso'),
-('Terror'),
-('Fantasia'),
-('Romance');
+('Niños'),
+('Jovenes'),
+('Jovenes Adultos'),
+('Aultos'),
+('Adultos +18');
 
 
 CREATE TABLE book (

@@ -43,49 +43,49 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="771c7" class="javax.swing.JCheckBox" binding="chkCategoriaTerror">
+              <component id="771c7" class="javax.swing.JCheckBox" binding="chkCategoriaAdultos">
                 <constraints>
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Terror"/>
+                  <text value="Adultos"/>
                 </properties>
               </component>
-              <component id="d6ca8" class="javax.swing.JCheckBox" binding="chkCategoriaFantasia">
+              <component id="d6ca8" class="javax.swing.JCheckBox" binding="chkCategoriaJovenesAdultos">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Fastasia"/>
+                  <text value="Jovenes Adultos"/>
                 </properties>
               </component>
-              <component id="797ec" class="javax.swing.JCheckBox" binding="chkCategoriaSuspenso">
+              <component id="797ec" class="javax.swing.JCheckBox" binding="chkCategoriaJovenes">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Suspenso"/>
+                  <text value="Jovenes"/>
                 </properties>
               </component>
-              <component id="acdfc" class="javax.swing.JCheckBox" binding="chkCategoriaRomance">
+              <component id="acdfc" class="javax.swing.JCheckBox" binding="chkCategoriaAdultosxxx">
                 <constraints>
                   <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Romance"/>
+                  <text value="Adultos +18"/>
                 </properties>
               </component>
-              <component id="881e3" class="javax.swing.JCheckBox" binding="chkCategoriaMagia">
+              <component id="881e3" class="javax.swing.JCheckBox" binding="chkCategoriaNinos">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <text value="Magia"/>
+                  <text value="Niños"/>
                 </properties>
               </component>
               <component id="ffa82" class="javax.swing.JLabel" binding="lblCategorias">
@@ -241,49 +241,49 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="20292" class="javax.swing.JRadioButton" binding="rMagia">
+                  <component id="20292" class="javax.swing.JRadioButton" binding="rNino">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Magia"/>
+                      <text value="Niños"/>
                     </properties>
                   </component>
-                  <component id="e7ff1" class="javax.swing.JRadioButton" binding="rSuspenso">
+                  <component id="e7ff1" class="javax.swing.JRadioButton" binding="rJovenes">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Suspenso"/>
+                      <text value="Jovenes"/>
                     </properties>
                   </component>
-                  <component id="5184a" class="javax.swing.JRadioButton" binding="rTerror">
+                  <component id="5184a" class="javax.swing.JRadioButton" binding="rJovenesAdultos">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Terror"/>
+                      <text value="Jovenes Adultos"/>
                     </properties>
                   </component>
-                  <component id="f2049" class="javax.swing.JRadioButton" binding="rFantasia">
+                  <component id="f2049" class="javax.swing.JRadioButton" binding="rAdultos">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Fantasia"/>
+                      <text value="Adultos"/>
                     </properties>
                   </component>
-                  <component id="38656" class="javax.swing.JRadioButton" binding="rRomance">
+                  <component id="38656" class="javax.swing.JRadioButton" binding="rAdultosxxx">
                     <constraints>
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Romance"/>
+                      <text value="Adultos +18"/>
                     </properties>
                   </component>
                 </children>
