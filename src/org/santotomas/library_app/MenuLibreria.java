@@ -138,11 +138,15 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         listCategory = new JList();
         listCategoryModel = new DefaultListModel();
+        listCategory.setModel(listCategoryModel);
 
-        listCategoryModel.addElement("maiga");
-        listCategoryModel.addElement("wea 2");
-        listCategoryModel.addElement("wea 3");
-        listCategoryModel.addElement("wea 4");
+        listCategoryModel.addElement("Bebes");
+        listCategoryModel.addElement("Niños");
+        listCategoryModel.addElement("Jovenes");
+        listCategoryModel.addElement("Jovenes Adultos");
+        listCategoryModel.addElement("Adultos");
+        listCategoryModel.addElement("Adultos XXX +18");
+
 
 
         /** add panel */

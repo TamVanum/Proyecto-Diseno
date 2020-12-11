@@ -36,10 +36,6 @@ CREATE TABLE book (
     release_date DATE,
 
     PRIMARY KEY(id)
-<<<<<<< HEAD
-=======
-
->>>>>>> 6e7f6739a6e73d07aee79fa09508ffc68cc89ec2
 );
 
 CREATE TABLE category_book(
