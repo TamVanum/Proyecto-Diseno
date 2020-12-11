@@ -54,7 +54,7 @@ public class UpdateBook extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
 
         /* Definir nuestro titulo y lo dejamos en la parte de arriba de nuestra ventana */
         lblTitle = new JLabel("Modificar Libro", SwingConstants.CENTER);

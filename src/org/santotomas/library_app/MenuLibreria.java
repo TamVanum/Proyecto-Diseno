@@ -16,6 +16,7 @@ import org.santotomas.library_app.dao.CategoryDAO;
 import org.santotomas.library_app.dao.Database;
 import org.santotomas.library_app.models.Book;
 import org.santotomas.library_app.models.Category;
+import org.santotomas.library_app.table.models.BookTableModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -81,6 +82,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
     private CategoryDAO categoryDAO;
     private BookDAO bookDAO;
+    private BookTableModel tableModel;
 
 
     /**
@@ -95,8 +97,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
         setSize(new Dimension(1280, 640));
         setPreferredSize(new Dimension(1280, 640));
         setVisible(true);
-
-
 
         //Colores tbdHome
         pnlPanel.setBackground(Color.decode("#212121"));
@@ -113,7 +113,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraGaston);
+        myDatabase = new Database("localhost", "library", "root", contraSantiago);
         categoryDAO = new CategoryDAO(myDatabase);
         bookDAO = new BookDAO(myDatabase);
 
@@ -154,6 +154,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
         btnCloseSession.addActionListener(this);
         // endregion
 
+        /*
         dtmLibros = new DefaultTableModel();
         dtmLibros.addColumn("ISBN");
         dtmLibros.addColumn("Titulo");
@@ -164,8 +165,11 @@ public class MenuLibreria extends JFrame implements ActionListener {
         dtmLibros.addColumn("Stock");
         dtmLibros.addColumn("Fecha Salida");
         table1.setModel(dtmLibros);
+         */
+        tableModel = new BookTableModel(bookDAO.getAll());
+        table1.setModel(tableModel);
 
-        updateTable();
+        tableModel.refreshTable(bookDAO.getAll());
 
         /** add panel */
 
