@@ -1,15 +1,21 @@
 package org.santotomas.library_app;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYBarDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.santotomas.library_app.dao.BookDAO;
 import org.santotomas.library_app.dao.CategoryDAO;
 import org.santotomas.library_app.dao.Database;
 import org.santotomas.library_app.models.Book;
+import org.santotomas.library_app.models.Category;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -273,35 +279,48 @@ public class MenuLibreria extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
 
                 pnlGraficador.setOpaque(true);
-                XYSeries oSeries = new XYSeries("Stock de libros");
+                DefaultCategoryDataset oDataSet = new DefaultCategoryDataset();
 
                 BookDAO bookDAO = new BookDAO(myDatabase);
                 List<Book> books = null;
                 List<Integer> calculo = new ArrayList<>();
+                List<String> titulos = new ArrayList<>();
                  try {
                     books = bookDAO.getAll();
 
-                    if ( books != null) {
-                        for (Book book : books) {
-                            calculo.add(book.getPrice() * book.getStock());
-                        }
-                    }
+                     if ( books != null) {
+                         for (Book book : books) {
+                             titulos.add(book.getTitle());
+                         }
+
+                         for (Book book : books) {
+                             calculo.add(book.getPrice() * book.getStock());
+                         }
+                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+                /*
                 for (int formula : calculo) {
-                    oSeries.add(calculo.indexOf(formula), formula);
+                    oDataSet.setValue(calculo.indexOf(formula), String.valueOf(titulos) , String.valueOf(formula));
+                }
+                 */
+                for (int i = 0 ; i < calculo.size(); i++ ){
+                    oDataSet.setValue( calculo.get(i) , "Libros" , titulos.get(i) );
                 }
 
 
-                XYSeriesCollection oDataset = new XYSeriesCollection();
-                oDataset.addSeries(oSeries);
+                JFreeChart oChart = ChartFactory.createBarChart3D("Proyeccion", "Libros", "Libros si", oDataSet, PlotOrientation.VERTICAL, true, true, false);
 
-                JFreeChart oChart = ChartFactory.createXYLineChart("Venta de libros", "Libros", "Cantidad", oDataset, PlotOrientation.VERTICAL, true, false, false);
+                CategoryPlot plot = new CategoryPlot();
+                plot.setRangeGridlinePaint(Color.black);
 
                 ChartPanel oPanel = new ChartPanel(oChart);
                 pnlGraficador.setLayout(new java.awt.BorderLayout());
                 pnlGraficador.add(oPanel);
+
+
+
 
             }
         });
