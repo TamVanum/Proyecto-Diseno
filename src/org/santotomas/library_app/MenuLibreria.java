@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuLibreria extends JFrame implements ActionListener {
@@ -49,15 +50,9 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JLabel lblAutor;
     private JLabel lblStock;
     private JButton btnAgregar;
-    private JPanel pCategorias;
     private JLabel lblPrecio;
     private JSpinner spnPrecio;
     private JSpinner spnStock;
-    private JRadioButton rMagia;
-    private JRadioButton rSuspenso;
-    private JRadioButton rTerror;
-    private JRadioButton rFantasia;
-    private JRadioButton rRomance;
     private JPanel pnlGrafico;
     private JPanel pnlContenidoGrafico;
     private JPanel pnlGraficador;
@@ -67,11 +62,13 @@ public class MenuLibreria extends JFrame implements ActionListener {
     private JTextField txtSemana4;
     private JButton btnGraficar;
     private JButton btnActualizarTabla;
+    private JList listCategory;
+    private DefaultListModel listCategoryModel;
     // endregion
 
     private Database myDatabase;
     private DefaultTableModel dtmLibros;
-    private ButtonGroup bgCategorias;
+
 
 
     /**
@@ -102,7 +99,7 @@ public class MenuLibreria extends JFrame implements ActionListener {
 
         String contraSantiago = "1324";
         String contraGaston = "";
-        myDatabase = new Database("localhost", "library", "root", contraSantiago);
+        myDatabase = new Database("localhost", "library", "root", contraGaston);
 
         // region Buttons & Mnemonics
         tbdHome.setMnemonicAt(0, KeyEvent.VK_1);
@@ -122,21 +119,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
         btnEliminar.addActionListener(this);
         btnActualizarTabla.addActionListener(this);
 
-        // region Radio Buttons Group
-        bgCategorias = new ButtonGroup();
-        bgCategorias.add(rMagia);
-        bgCategorias.add(rSuspenso);
-        bgCategorias.add(rTerror);
-        bgCategorias.add(rRomance);
-        bgCategorias.add(rFantasia);
-
-        rMagia.setActionCommand("Magia");
-        rSuspenso.setActionCommand("Suspenso");
-        rTerror.setActionCommand("Terror");
-        rFantasia.setActionCommand("Fantasia");
-        rRomance.setActionCommand("Romance");
-        // endregion
-
         btnCloseSession.setIcon(new ImageIcon("src/org/santotomas/library_app/img/close_icon.png"));
         btnCloseSession.addActionListener(this);
         // endregion
@@ -153,6 +135,15 @@ public class MenuLibreria extends JFrame implements ActionListener {
         table1.setModel(dtmLibros);
 
         updateTable();
+
+        listCategory = new JList();
+        listCategoryModel = new DefaultListModel();
+
+        listCategoryModel.addElement("maiga");
+        listCategoryModel.addElement("wea 2");
+        listCategoryModel.addElement("wea 3");
+        listCategoryModel.addElement("wea 4");
+
 
         /** add panel */
 
@@ -404,25 +395,6 @@ public class MenuLibreria extends JFrame implements ActionListener {
                 int stock = Integer.parseInt(spnStock.getValue().toString());
                 int categoria = 0;
 
-                switch ( bgCategorias.getSelection().getActionCommand() ) {
-                    case "Magia":
-                        categoria = 1;
-                        break;
-                    case "Suspenso":
-                        categoria = 2;
-                        break;
-                    case "Terror":
-                        categoria = 3;
-                        break;
-                    case "Fantasia":
-                        categoria = 4;
-                        break;
-                    case "Romance":
-                        categoria = 5;
-                        break;
-
-                    default: categoria = 0;
-                }
 
                 Book book = new Book();
                 book.setTitle(titulo);
